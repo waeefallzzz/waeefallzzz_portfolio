@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile | Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Neuton:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER: copy any change here to all 4 pages -->
+  <header class="header">
+    <a href="index.html" class="logo">
+      <span>Waeefallzz</span>
+    </a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="profile.html" class="active">Profile</a>
+      <a href="feats.html">Feats</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- SECTION HEADER: change the title here -->
+    <div class="section-header">
+      <h2>Profile</h2>
+      <div class="ridge"></div>
+    </div>
+
+    <!-- ==========================================================
+         ABOUT ME: your photo, a short bio, and your details.
+         Replace every placeholder text below with your own.
+         ========================================================== -->
+    <section class="profile-block">
+      <h3 class="sub-title">About Me</h3>
+
+      <div class="peek-grid">
+
+        <!-- YOUR PHOTO: to add it, replace the empty box below with:
+             <div class="peek-photo"><img src="images/me.jpg" alt="Your name"></div>
+             and put your picture in the images folder. -->
+        <div class="peek-photo"></div>
+
+        <div>
+          <!-- Short bio: write 2 or 3 sentences about yourself -->
+          <p class="peek-lead">Write two or three sentences about yourself here. Who you are, what you study, and what you enjoy.</p>
+          <p class="home-note">Add a second paragraph if you want. Delete this line if you do not.</p>
+
+          <!-- YOUR DETAILS: to add a row, copy one li line and change the words.
+               To remove a row, delete its li line. -->
+          <ul class="peek-facts">
+            <li><span>Full name</span> Your full name</li>
+            <li><span>Birthday</span> Month Day, Year</li>
+            <li><span>Course</span> Your course</li>
+            <li><span>School</span> Your school</li>
+            <li><span>Location</span> Your city, Philippines</li>
+            <li><span>Email</span> you@email.com</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================
+         SKILLS: one card per skill, with a picture and a progress bar.
+
+         TO UPDATE YOUR PROGRESS: change the number after --level (0 to 100).
+         The bar and the percent text both follow that one number.
+           Example: style="--level: 70"  means 70%
+
+         TO ADD A SKILL: copy one whole <article class="skill"> block
+         (from <article to </article>) and paste it below the last one.
+
+         TO CHANGE THE PICTURE: change the src="..." to your own file,
+         like src="images/skills/java.png". The pictures below load from
+         the internet (devicon), so they need a connection.
+         For a skill with no picture yet, use the empty box (see Networking).
+         ========================================================== -->
+    <section class="profile-block">
+      <h3 class="sub-title">Skills</h3>
+
+      <div class="skill-grid">
+
+        <article class="skill" style="--level: 70">
+          <div class="skill-head">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"></div>
+            <h4 class="skill-name">Java</h4>
+            <span class="skill-level"></span>
+          </div>
+          <div class="skill-bar"><span></span></div>
+        </article>
+
+        <article class="skill" style="--level: 55">
+          <div class="skill-head">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"></div>
+            <h4 class="skill-name">JavaScript</h4>
+            <span class="skill-level"></span>
+          </div>
+          <div class="skill-bar"><span></span></div>
+        </article>
+
+        <article class="skill" style="--level: 85">
+          <div class="skill-head">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"></div>
+            <h4 class="skill-name">HTML</h4>
+            <span class="skill-level"></span>
+          </div>
+          <div class="skill-bar"><span></span></div>
+        </article>
+
+        <article class="skill" style="--level: 75">
+          <div class="skill-head">
+            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"></div>
+            <h4 class="skill-name">CSS</h4>
+            <span class="skill-level"></span>
+          </div>
+          <div class="skill-bar"><span></span></div>
+        </article>
+
+        <!-- NO PICTURE YET: this empty box is the placeholder.
+             To add a picture, replace <div class="skill-icon"></div> with:
+             <div class="skill-icon"><img src="images/skills/networking.png" alt="Networking"></div> -->
+        <article class="skill" style="--level: 40">
+          <div class="skill-head">
+            <div class="skill-icon"></div>
+            <h4 class="skill-name">Networking</h4>
+            <span class="skill-level"></span>
+          </div>
+          <div class="skill-bar"><span></span></div>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>&copy; 2026 Your Name</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

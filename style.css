@@ -1,0 +1,807 @@
+/* ==========================================================
+   STYLE.CSS (shared by all pages)
+   Edit the values in the SETTINGS block to restyle the site.
+   ========================================================== */
+
+/* FONTS loaded from Google Fonts (needs internet): Ubuntu for headers, Syne Mono for the logo */
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Syne+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amarante&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Syne+Mono&display=swap");
+
+/* ---------- 1. SETTINGS: change colors and fonts here ---------- */
+:root {
+  --bg: #121218;        /* page background */
+  --card: #1c1c26;      /* card background */
+  --text: #f4f1ee;      /* main text */
+  --muted: #a3a1ad;     /* softer text */
+  --accent: #e3e0e0;
+  --nav-accent: #cbd5e1; /* nav buttons at rest: the border (Silver Blue accent). The text stays white. */
+  --nav-hover: #94a3b8;  /* nav hover: the text, the border, and the glowing line all use this (Silver Blue hover) */
+  --grad-top: #050507;  /* page gradient: color at the top */
+  --grad-mid: #14141c;  /* page gradient: color in the middle */
+  --grad-end: #2a2230;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
+
+  --font-heading: "Amarante", sans-serif;    /* headers */
+  --font-logo: "Syne Mono", monospace;     /* logo name */
+  --font-body: "Neuton", serif;           /* paragraphs */
+}
+
+/* ---------- 2. BASE ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+   /* gradient that runs down the whole page, so it shifts as you scroll */
+  background: linear-gradient(180deg, var(--grad-top) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
+  background-color: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.6;
+}
+
+/* PAGE BACKGROUND PICTURE: puts the hero picture at the top of every inner page
+   (Profile, Feats, Contact) and fades it into the gradient as you scroll down.
+   Home is skipped here because it draws its own picture in .hero::before.
+   The picture is the same file: images/hero.jpg
+   To make the picture fade out sooner or later, change the 80% below. */
+body:not(:has(.home))::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  background: url("images/hero.jpg") center 20% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+}
+
+h1, h2, h3 { font-family: var(--font-heading); line-height: 1.1; }
+h1 { font-size: clamp(3rem, 9vw, 6.5rem); }
+h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 30px; }
+h3 { font-size: 1.3rem; margin-bottom: 8px; }
+
+a { color: inherit; }
+
+/* ---------- 3. HEADER AND NAV ---------- */
+.header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;  /* logo left, nav right */
+  align-items: center;
+  padding: 15px 75px;
+  background: rgba(18, 18, 24, 0.9);
+  border-bottom: 1px solid #2c2c3a;
+  backdrop-filter: blur(8px);
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  text-decoration: none;
+}
+
+/* LOGO PLACEHOLDER: size of the logo picture */
+.logo-image,
+.logo img {
+  width: 125px;
+  height: 125px;
+}
+
+.logo-image { background: #2a2a38; }       /* grey box until you add your logo */
+.logo img { object-fit: cover; }
+
+.logo span {
+  font-family: var(--font-logo);
+  font-size: 3rem;
+  font-weight: 400;      /* Syne Mono has only one weight */
+}
+
+/* ---------- 3b. LOGO HOVER: the letters scramble, then turn into an icon ----------
+   script.js does the scrambling and adds the icon. This is how it looks. */
+.logo { position: relative; }
+.logo span { transition: opacity 0.25s ease; }
+.logo.is-icon span { opacity: 0; }            /* the name fades out when the icon shows */
+
+.logo-icon {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 3rem;                               /* icon size (matches the logo text size) */
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: translateY(-50%) scale(0.6);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+
+.logo.is-icon .logo-icon {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.logo-icon img,
+.logo-icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* the built-in icon is a line drawing that takes the logo's color */
+.logo-icon svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+nav { display: flex; gap: 25px; }
+
+nav a {
+  position: relative;
+  padding: 8px 20px;
+  border: 1px solid var(--nav-accent);
+  text-decoration: none;
+  color: var(--text);
+  font-size: 1.2rem;
+  letter-spacing: 0.1em;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+}
+
+nav a.active {
+  color: var(--text);
+  border-color: var(--nav-accent);
+}
+
+nav a:hover {
+  color: var(--nav-hover);
+  border-color: var(--nav-hover);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--nav-hover) 60%, transparent);   /* text glow: change 8px for spread, 60% for strength */
+}
+
+/* ---------- 4. PAGE LAYOUT ---------- */
+main {
+  min-height: 100vh;
+  padding: 230px 40px 80px;   /* top padding = space under the header */
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: fadeUp 0.8s ease both;   /* every page fades in on load */
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- 4b. SECTION HEADER (title and divider line) ---------- */
+.section-header { margin-bottom: 40px; }
+
+.section-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* divider: a plain thin line under the title that fades out to the right.
+   To remove the divider completely, change this to: .ridge { display: none; } */
+.ridge {
+  height: 1px;
+  margin-top: 16px;
+  background: linear-gradient(to right, var(--muted), transparent);
+  opacity: 0.5;
+}
+
+/* ---------- 5. HOME (centered full screen hero) ---------- */
+main.home { max-width: none; padding: 0; }
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;       /* centers horizontally */
+  justify-content: center;   /* centers vertically */
+  text-align: center;
+  padding: 200px 40px 100px;
+
+}
+
+/* HERO PICTURE: images/hero.jpg, fading out at the bottom so it blends into the gradient.
+   Change "20%" to move the picture up or down. Change "80%" to fade sooner or later. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("images/hero.jpg") center 20% / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
+}
+
+/* keep the text above the picture */
+.hero h1, .hero-name, .hero-buttons { position: relative; z-index: 1; }
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  margin-bottom: 24px;
+}
+
+.hero-name {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.button {
+  display: inline-block;   /* lets overflow: hidden clip the light streak */
+  position: relative;
+  overflow: hidden;
+  padding: 14px 32px;
+  border: 2px solid var(--accent);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+}
+
+.button:hover {
+  box-shadow: 0 10px 25px rgba(134, 30, 108, 0.35);   /* glow under the button */
+}
+
+.logo {
+  color: #e0e0e0;
+  text-decoration: none;
+  transition: text-shadow 0.3s ease, color 0.3s ease;
+}
+
+.logo:hover {
+  text-shadow: 0 10px 25px rgba(134, 30, 108, 0.35);
+  color: #7dd3fc;   /* Glacier Blue */
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+   
+}
+
+/* pressed effect when clicking */
+.button:active { transform: scale(0.97); }
+
+/* second button, white outline */
+.button.secondary { border-color: var(--text); }
+.button.secondary:hover {
+  box-shadow: 0 10px 25px rgba(244, 241, 238, 0.25);
+}
+
+/* ---------- EXPLORE MENU: hover "Explore" to show your social icons ---------- */
+.explore {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.explore-label {
+  display: block;
+  padding: 10px 24px;
+  color: var(--muted);
+  letter-spacing: 0.3em;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.explore:hover .explore-label { color: var(--accent); }
+.explore:has(:focus-visible) .explore-label { color: var(--accent); }   /* keyboard only */
+
+/* the row of icons, sitting just above the word Explore */
+.explore-menu {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 14px;
+  padding-bottom: 20px;      /* keeps the hover from breaking between the word and the buttons */
+  pointer-events: none;
+}
+
+.explore:hover .explore-menu { pointer-events: auto; }
+.explore:has(:focus-visible) .explore-menu { pointer-events: auto; }   /* keyboard only */
+
+/* hidden state: faded out and sitting a little lower */
+.explore-menu .button {
+  padding: 12px;
+  color: var(--muted);     /* resting icon color */
+  background: rgba(11, 11, 16, 0.7);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translateY(calc(var(--lift) + 24px)) rotate(var(--tilt));
+  transition: opacity 0.4s ease var(--delay), transform 0.4s ease var(--delay), box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* the icons: size and line style (they take the text color) */
+.explore-menu svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* BRAND COLORS: on hover each icon, its border, and its glow turn into the original colors.
+   To change a color, edit the hex code (the # number). */
+.explore-menu .facebook:hover {
+  color: #1877f2;
+  border-color: #1877f2;
+  box-shadow: 0 10px 25px rgba(24, 119, 242, 0.4);
+}
+
+.explore-menu .instagram:hover {
+  border-color: #d62976;
+  box-shadow: 0 10px 25px rgba(214, 41, 118, 0.4);
+}
+
+.explore-menu .instagram:hover svg { stroke: url(#ig-gradient); }   /* the rainbow gradient */
+
+.explore-menu .github:hover {
+  color: #ffffff;
+  border-color: #ffffff;
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
+}
+
+/* THE CURVE: the middle button sits highest, the outer buttons sit lower and tilt outward.
+   --lift moves a button down (positive) or up (negative), --tilt rotates it,
+   --delay makes them appear one after another. */
+.explore-menu .button:nth-child(1) { --lift: 20px;  --tilt: -9deg; --delay: 0s; }
+.explore-menu .button:nth-child(2) { --lift: -8px;  --tilt: 0deg;  --delay: 0.08s; }
+.explore-menu .button:nth-child(3) { --lift: 20px;  --tilt: 9deg;  --delay: 0.16s; }
+
+/* shown state: when the mouse is over it, or when tabbing with the keyboard.
+   (A mouse click does not keep it open, so it will not get stuck after you come back.) */
+.explore:hover .explore-menu .button {
+  opacity: 1;
+  transform: translateY(var(--lift)) rotate(var(--tilt));
+}
+
+.explore:has(:focus-visible) .explore-menu .button {
+  opacity: 1;
+  transform: translateY(var(--lift)) rotate(var(--tilt));
+}
+
+/* ---------- 5b. HOME: SNEAK PEEK ---------- */
+.peek {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px 100px;
+}
+
+.peek-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 50px;
+  align-items: center;
+}
+
+/* photo box */
+.peek-photo {
+  aspect-ratio: 4 / 5;
+  background: #2a2a38;     /* grey box until you add your photo */
+  overflow: hidden;
+}
+
+.peek-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.peek-lead { font-size: 1.5rem; margin-bottom: 30px; }
+
+.peek-facts { list-style: none; margin-bottom: 36px; }
+
+.peek-facts li {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid #2c2c3a;
+}
+
+.peek-facts span { color: var(--muted); }
+
+/* ---------- 5c. HOME: MORE SECTIONS (Skills, Featured Feats, Get in Touch) ---------- */
+.home-section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px 40px 80px;
+}
+
+.home-note {
+  max-width: 600px;
+  margin-bottom: 30px;
+  color: var(--muted);
+  font-size: 1.2rem;
+}
+
+/* ---------- 6. PROFILE ---------- */
+.profile-text { max-width: 650px; margin-bottom: 50px; }
+.profile-text p { margin-bottom: 16px; color: var(--muted); }
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  list-style: none;
+}
+
+.skills li {
+  padding: 8px 18px;
+  border: 1px solid var(--muted);
+  border-radius: 999px;
+  transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.skills li:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- 7. FEATS (project cards) ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.card-image {
+  height: 180px;
+  background: #2a2a38;     /* placeholder color, see feats.html to add a picture */
+  overflow: hidden;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-image img { transform: scale(1.08); }
+
+.card-body { padding: 24px; }
+.card-body p { color: var(--muted); }
+
+/* ---------- 8. CONTACT ---------- */
+.contact-list { list-style: none; max-width: 600px; }
+
+.contact-list a {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 0;
+  border-bottom: 1px solid #2c2c3a;
+  text-decoration: none;
+  font-size: 1.3rem;
+  transition: color 0.3s ease, padding-left 0.3s ease;
+}
+
+.contact-list a:hover { color: var(--accent); padding-left: 14px; }
+.contact-list span { color: var(--muted); font-size: 1rem; }
+
+/* ---------- 8b. LIGHT PASSING EFFECT ----------
+   On hover, a streak of light passes left to right.
+   When the mouse leaves, the light passes back right to left.
+   To make it stronger or softer, change the 0.35. To change the speed, change the 0.6s. */
+
+/* buttons */
+.button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%) skewX(-20deg);   /* resting spot, off to the left */
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+/* nav links: the same light, drawn as a sliding background so the link itself
+   does not need to clip anything (the glow below needs to spread outside) */
+nav a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%) no-repeat;
+  background-size: 300% 100%;
+  background-position: 100% 0;                  /* resting spot */
+  transition: background-position 0.6s ease;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .button:hover::after,
+  .button:focus-visible::after {
+    transform: translateX(220%) skewX(-20deg);   /* ends off to the right */
+  }
+
+  nav a:hover::after,
+  nav a:focus-visible::after {
+    background-position: 0 0;
+  }
+}
+
+/* ---------- 8c. CIRCLING GLOW on nav links ----------
+   A glowing line travels once around the link when you hover it.
+   script.js adds the little drawing (.glow-container) that this uses,
+   so script.js must be on EVERY page (see the line before </body>). */
+.glow {
+  --glow-line-color: var(--nav-hover);       /* same color as the hovered text */
+  --glow-line-thickness: 2px;
+  --glow-line-length: 20;                       /* how long the glowing line is */
+  --glow-blur-color: var(--nav-hover);          /* same color, made softer below */
+  --glow-blur-size: 5px;                        /* how far the glow spreads (smaller = less glow) */
+  --animation-speed: 1200ms;                    /* how long one lap takes */
+  --container-offset: 100px;
+  --glow-radius: 0px;                           /* set this to the link's border-radius if you round it */
+  position: relative;
+}
+
+.glow-container {
+  pointer-events: none;
+  position: absolute;
+  inset: calc(var(--container-offset) / -2);
+  width: calc(100% + var(--container-offset));
+  height: calc(100% + var(--container-offset));
+  opacity: 0;
+}
+
+.glow-blur,
+.glow-line {
+  width: calc(100% - var(--container-offset));
+  height: calc(100% - var(--container-offset));
+  x: calc(var(--container-offset) / 2);
+  y: calc(var(--container-offset) / 2);
+  rx: var(--glow-radius);
+  fill: transparent;
+  stroke: black;
+  stroke-width: 5px;
+  stroke-dasharray: var(--glow-line-length) calc(50 - var(--glow-line-length));
+}
+
+.glow-line {
+  stroke: var(--glow-line-color);
+  stroke-width: var(--glow-line-thickness);
+}
+
+.glow-blur {
+  opacity: 0.55;                                /* how strong the blur is (lower = less glow) */
+  filter: blur(var(--glow-blur-size));
+  stroke: var(--glow-blur-color);
+  stroke-width: var(--glow-blur-size);
+}
+
+.glow:is(:hover, :focus-visible) .glow-blur,
+.glow:is(:hover, :focus-visible) .glow-line {
+  stroke-dashoffset: -80px;
+  transition: stroke-dashoffset var(--animation-speed) ease-in, stroke-dasharray var(--animation-speed) ease-in;
+}
+
+.glow:is(:hover, :focus-visible) .glow-container {
+  animation: glow-visibility var(--animation-speed) ease-in;
+}
+
+@keyframes glow-visibility {
+  0%, 100% { opacity: 0; }
+  25%, 75% { opacity: 1; }
+}
+
+/* ---------- 9. FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 30px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ---------- 10. SMALLER SCREENS ---------- */
+@media (max-width: 900px) {
+  .header { padding: 16px 30px; }
+  .logo-image, .logo img { width: 80px; height: 80px; }
+  .logo span { font-size: 2rem; }
+  .logo-icon { height: 2rem; }
+  nav { gap: 12px; }
+  nav a { padding: 12px 18px; font-size: 1rem; }
+  main { padding-top: 150px; }
+  .peek-grid { grid-template-columns: 1fr; }
+  .peek-photo { max-width: 360px; }
+}
+
+@media (max-width: 600px) {
+  .header { flex-direction: column; gap: 12px; padding: 12px 20px; }
+  .logo { gap: 12px; }
+  .logo-image, .logo img { width: 50px; height: 50px; }
+  .logo span { font-size: 1.3rem; }
+  .logo-icon { height: 1.3rem; }
+  nav { gap: 8px; }
+  nav a { padding: 8px 14px; font-size: 0.9rem; letter-spacing: 0.05em; }
+  main { padding: 170px 20px 60px; }
+  .hero { padding: 170px 20px 100px; }
+  .hero-name { font-size: 2rem; }
+}
+
+/* ---------- 11. ACCESSIBILITY: respect "reduce motion" setting ---------- */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ---------- 12. CENTERED PAGE TITLES (Profile, Feats, Contact only; Home is not affected) ---------- */
+main:not(.home) .section-header h2 {
+  justify-content: center;
+}
+
+/* the line under the title fades out on both sides */
+main:not(.home) .section-header .ridge {
+  background: linear-gradient(to right, transparent, var(--muted), transparent);
+}
+
+/* ---------- 13. BANNER SPACING (Profile, Feats, Contact only; Home is not affected) ----------
+   The title sits in the middle of the first screen, over the hero picture,
+   and the content starts just below it (a small peek shows at the bottom).
+   --header-h is the height of the fixed header. If the title looks off-center,
+   change these numbers to match your header. --peek is how much content shows at the bottom. */
+:root {
+  --header-h: 125px;
+  --peek: 40px;
+}
+
+main:not(.home) {
+  padding-top: var(--header-h);        /* start right under the header */
+}
+
+main:not(.home) .section-header {
+  min-height: calc(100vh - var(--header-h) - var(--peek));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;             /* title in the middle of the banner */
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 85px; }
+}
+
+@media (max-width: 600px) {
+  :root { --header-h: 115px; }
+}
+
+/* ---------- 14. PROFILE PAGE: sub titles, About Me, and Skills ----------
+   The About Me photo and details reuse the Sneak Peek styles from section 5b. */
+.profile-block { margin-bottom: 90px; }
+
+/* small section title with a thin line running to the right */
+.sub-title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 36px;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sub-title::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--muted), transparent);
+  opacity: 0.5;
+}
+
+/* skill cards */
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
+
+.skill {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  background: var(--card);
+  border: 1px solid #2c2c3a;
+  border-radius: 12px;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skill:hover {
+  transform: translateY(-6px);
+  border-color: var(--nav-accent);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.skill-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* the picture box (grey until you add a picture) */
+.skill-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  padding: 10px;
+  background: #2a2a38;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.skill-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.skill-name {
+  flex: 1;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  line-height: 1.1;
+}
+
+/* the percent text: it reads the same --level number as the bar.
+   You only ever edit --level in profile.html. */
+.skill-level {
+  color: var(--muted);
+  font-size: 1.1rem;
+  counter-reset: level var(--level);
+}
+
+.skill-level::after { content: counter(level) "%"; }
+
+/* the progress bar: empty track and the filled part */
+.skill-bar {
+  height: 8px;
+  background: #2a2a38;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.skill-bar span {
+  display: block;
+  height: 100%;
+  width: calc(var(--level) * 1%);
+  background: linear-gradient(to right, var(--nav-accent), var(--nav-hover));
+  border-radius: inherit;
+  animation: skillFill 1.2s ease both;     /* the bar fills up when the page loads */
+}
+
+@keyframes skillFill { from { width: 0; } }
