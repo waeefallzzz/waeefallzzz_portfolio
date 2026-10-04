@@ -157,3 +157,36 @@ document.querySelectorAll("nav a").forEach((link) => {
 
   logo.addEventListener("mouseenter", scramble);
 })();
+
+/* ==========================================================
+   PAGE CHANGE: when you click a link to another page of this site,
+   the header and the page fade out first, then the next page opens
+   (and fades in by itself, see style.css section 15).
+   Links that open in a new tab, go to other sites, or stay on the
+   same page are left alone. Skipped if reduced motion is on.
+   ========================================================== */
+(function () {
+  const LEAVE_TIME = 350;   /* must match the 0.35s in style.css section 15 (1000 = 1 second) */
+
+  /* when you come back with the Back button, make sure the page is visible again */
+  window.addEventListener("pageshow", function (e) {
+    if (e.persisted) document.body.classList.remove("page-leave");
+  });
+
+  if (reduceMotion) return;
+
+  document.querySelectorAll("a[href]").forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      if (e.defaultPrevented || e.button !== 0) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;       /* new tab shortcuts */
+      if (link.target && link.target !== "_self") return;                 /* opens in a new tab */
+      if (link.hasAttribute("download")) return;
+      if (link.protocol !== location.protocol || link.host !== location.host) return;   /* other sites, mailto */
+      if (link.pathname === location.pathname) return;                    /* same page, # links */
+
+      e.preventDefault();
+      document.body.classList.add("page-leave");
+      setTimeout(function () { window.location.href = link.href; }, LEAVE_TIME);
+    });
+  });
+})();

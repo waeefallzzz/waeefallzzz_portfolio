@@ -73,7 +73,7 @@ a { color: inherit; }
   display: flex;
   justify-content: space-between;  /* logo left, nav right */
   align-items: center;
-  padding: 15px 75px;
+  padding: 24px 75px;
   background: rgba(18, 18, 24, 0.9);
   border-bottom: 1px solid #2c2c3a;
   backdrop-filter: blur(8px);
@@ -805,3 +805,28 @@ main:not(.home) .section-header {
 }
 
 @keyframes skillFill { from { width: 0; } }
+
+/* ---------- 15. PAGE CHANGE ANIMATION (includes the nav bar) ----------
+   Coming in: the header slides down while the page fades up.
+   Going out: when you click a link to another page, the header and the page
+   fade away first (script.js adds the "page-leave" class and waits 0.35s).
+   To change the speed, edit the 0.8s and the 0.35s below. */
+.header { animation: headerIn 0.8s ease both; }
+
+@keyframes headerIn {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+body.page-leave .header { animation: headerOut 0.35s ease forwards; }
+body.page-leave main    { animation: pageOut 0.35s ease forwards; }
+
+@keyframes headerOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-24px); }
+}
+
+@keyframes pageOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-20px); }
+}
