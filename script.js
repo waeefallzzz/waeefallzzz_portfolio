@@ -75,22 +75,6 @@ if (title && !reduceMotion) {
 }
 
 /* ==========================================================
-   GLOW: the light that circles each nav link on hover
-   This adds a small drawing inside every nav link. The look is in
-   style.css, section 8c. This file must be on EVERY page.
-   ========================================================== */
-document.querySelectorAll("nav a").forEach((link) => {
-  link.classList.add("glow");
-  link.insertAdjacentHTML(
-    "beforeend",
-    '<svg class="glow-container" aria-hidden="true">' +
-      '<rect pathLength="100" stroke-linecap="round" class="glow-blur"></rect>' +
-      '<rect pathLength="100" stroke-linecap="round" class="glow-line"></rect>' +
-    "</svg>"
-  );
-});
-
-/* ==========================================================
    LOGO: on hover the letters scramble into random characters,
    then settle back into the name, one by one from left to right.
    (No icon. Scrambling only.)

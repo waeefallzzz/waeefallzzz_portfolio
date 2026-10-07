@@ -1,9 +1,3 @@
-/* ==========================================================
-   STYLE.CSS (shared by all pages)
-   Edit the values in the SETTINGS block to restyle the site.
-   ========================================================== */
-
-/* FONTS loaded from Google Fonts (needs internet): Ubuntu for headers, Syne Mono for the logo */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Syne+Mono&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Amarante&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Syne+Mono&display=swap");
 
@@ -15,7 +9,7 @@
   --muted: #9aa8ad;     /* softer text */
   --accent: #00f57f;      /* bright green: buttons, highlights */
   --nav-accent: #00f57f; /* green: the current page in the nav, card borders, timeline */
-  --nav-hover: #00c968;  /* nav hover: the text and the glowing line (deeper green) */
+  --nav-hover: #00c968;  /* deeper green used for hover accents */
   --grad-top: #070d10;  /* page gradient: color at the top */
   --grad-mid: #0a1418;  /* page gradient: color in the middle */
   --grad-end: #0d1f1c;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
@@ -127,26 +121,42 @@ a { color: inherit; }
   stroke-linejoin: round;
 }
 
-nav { display: flex; gap: 25px; }
+nav { display: flex; gap: 16px; }
 
 nav a {
   position: relative;
-  padding: 5px 20px;
+  padding: 5px 14px;
   border: 1px solid transparent;   /* invisible, so the current page's border does not shift the layout */
   text-decoration: none;
   color: var(--text);
   font-size: 1.2rem;
   letter-spacing: 0.1em;
-  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+  transition: color 0.2s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  right: 14px;
+  bottom: 0;
+  left: 14px;
+  height: 1px;
+  background: var(--nav-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.2s ease;
 }
 
 nav a.active {
-  color: var(--nav-accent);   /* the current page's text color (Silver Blue accent) */
+  color: var(--nav-accent);
 }
 
-nav a:hover {
-  color: var(--nav-hover);
-  text-shadow: 0 0 8px color-mix(in srgb, var(--nav-hover) 60%, transparent);   /* text glow: change 8px for spread, 60% for strength */
+nav a:is(:hover, :focus-visible) {
+  color: var(--nav-accent);
+}
+
+nav a:is(:hover, :focus-visible, .active)::after {
+  transform: scaleX(1);
 }
 
 /* ---------- 4. PAGE LAYOUT ---------- */
@@ -399,84 +409,11 @@ main.home { max-width: none; padding: 0; }
   pointer-events: none;
 }
 
-/* nav links: the same light, drawn as a sliding background so the link itself
-   does not need to clip anything (the glow below needs to spread outside) */
-
 @media (prefers-reduced-motion: no-preference) {
   .button:hover::after,
   .button:focus-visible::after {
     transform: translateX(220%) skewX(-20deg);   /* ends off to the right */
   }
-
-  nav a:hover::after,
-  nav a:focus-visible::after {
-    background-position: 0 0;
-  }
-}
-
-/* ---------- 8c. CIRCLING GLOW on nav links ----------
-   A glowing line travels once around the link when you hover it.
-   script.js adds the little drawing (.glow-container) that this uses,
-   so script.js must be on EVERY page (see the line before </body>). */
-.glow {
-  --glow-line-color: var(--nav-hover);       /* same color as the hovered text */
-  --glow-line-thickness: 2px;
-  --glow-line-length: 20;                       /* how long the glowing line is */
-  --glow-blur-color: var(--nav-hover);          /* same color, made softer below */
-  --glow-blur-size: 5px;                        /* how far the glow spreads (smaller = less glow) */
-  --animation-speed: 1200ms;                    /* how long one lap takes */
-  --container-offset: 100px;
-  --glow-radius: 0px;                           /* set this to the link's border-radius if you round it */
-  position: relative;
-}
-
-.glow-container {
-  pointer-events: none;
-  position: absolute;
-  inset: calc(var(--container-offset) / -2);
-  width: calc(100% + var(--container-offset));
-  height: calc(100% + var(--container-offset));
-  opacity: 0;
-}
-
-.glow-blur,
-.glow-line {
-  width: calc(100% - var(--container-offset));
-  height: calc(100% - var(--container-offset));
-  x: calc(var(--container-offset) / 2);
-  y: calc(var(--container-offset) / 2);
-  rx: var(--glow-radius);
-  fill: transparent;
-  stroke: black;
-  stroke-width: 5px;
-  stroke-dasharray: var(--glow-line-length) calc(50 - var(--glow-line-length));
-}
-
-.glow-line {
-  stroke: var(--glow-line-color);
-  stroke-width: var(--glow-line-thickness);
-}
-
-.glow-blur {
-  opacity: 0.55;                                /* how strong the blur is (lower = less glow) */
-  filter: blur(var(--glow-blur-size));
-  stroke: var(--glow-blur-color);
-  stroke-width: var(--glow-blur-size);
-}
-
-.glow:is(:hover, :focus-visible) .glow-blur,
-.glow:is(:hover, :focus-visible) .glow-line {
-  stroke-dashoffset: -80px;
-  transition: stroke-dashoffset var(--animation-speed) ease-in, stroke-dasharray var(--animation-speed) ease-in;
-}
-
-.glow:is(:hover, :focus-visible) .glow-container {
-  animation: glow-visibility var(--animation-speed) ease-in;
-}
-
-@keyframes glow-visibility {
-  0%, 100% { opacity: 0; }
-  25%, 75% { opacity: 1; }
 }
 
 /* ---------- 9. FOOTER ---------- */
@@ -493,8 +430,9 @@ footer {
   .logo-image, .logo img { width: 80px; height: 80px; }
   .logo span { font-size: 2rem; }
   .logo-icon { height: 2rem; }
-  nav { gap: 12px; }
-  nav a { padding: 12px 18px; font-size: 1rem; }
+  nav { gap: 8px; }
+  nav a { padding: 12px 12px; font-size: 1rem; }
+  nav a::after { right: 12px; left: 12px; }
   main { padding-top: 150px; }
   .peek-grid { grid-template-columns: 1fr; }
   .peek-photo { max-width: 360px; }
@@ -506,8 +444,9 @@ footer {
   .logo-image, .logo img { width: 50px; height: 50px; }
   .logo span { font-size: 1.3rem; }
   .logo-icon { height: 1.3rem; }
-  nav { gap: 8px; }
-  nav a { padding: 8px 14px; font-size: 0.9rem; letter-spacing: 0.05em; }
+  nav { gap: 4px; }
+  nav a { padding: 8px 10px; font-size: 0.9rem; letter-spacing: 0.05em; }
+  nav a::after { right: 10px; left: 10px; }
   main { padding: 170px 20px 60px; }
   .hero { padding: 170px 20px 100px; }
   .hero-name { font-size: 2rem; }
