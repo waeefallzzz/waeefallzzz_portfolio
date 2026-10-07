@@ -28,71 +28,113 @@
 
   <main class="home">
 
-    <section class="hero">
-      <h1>Peak is temporary. <br >Progress is absolute</h1>
-      <div class="hero-buttons">
-        <a href="feats.html" class="button">View feats</a>
-        <a href="contact.html" class="button secondary">Contact me</a>
-      </div>
-      <!-- EXPLORE: hover the word to show your social icons.
-           Replace each link (the https:// part) with your own page. It opens in a new tab. -->
-      <div class="explore">
-        <span class="explore-label" tabindex="0">Explore</span>
-        <div class="explore-menu">
-          <a href="https://www.facebook.com/waeefallzz" class="button facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook" title="Facebook">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/waeefallzzz/" class="button instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram" title="Instagram">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="ig-gradient" gradientUnits="userSpaceOnUse" x1="2" y1="22" x2="22" y2="2"><stop offset="0" stop-color="#feda75"/><stop offset="0.25" stop-color="#fa7e1e"/><stop offset="0.5" stop-color="#d62976"/><stop offset="0.75" stop-color="#962fbf"/><stop offset="1" stop-color="#4f5bd5"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></svg>
-          </a>
-          <a href="https://github.com/waeefallzzz" class="button github" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-          </a>
+    <!-- HERO: text on the left, your photo on the right. Replace every placeholder. -->
+    <section class="hero hero-split">
+      <div class="hero-inner">
+
+        <div class="hero-text">
+          <p class="hero-hello" data-words="Hello, I'm|The Goat">Hello, I'm Ralph Rafols</p>
+          <h1>Peak is temporary. <br >Progress is absolute</h1>
+          <p class="hero-sub">Hello! I'm currently studying Information Technology in PLV! </p>
+          <p class="hero-desc">Im currently looking for something interesting to work on. I find Video Editing and Videography fun and interesting.</p>
+
+          <div class="hero-buttons">
+            <a href="contact.html" class="button">Contact me</a>
+            <a href="feats.html" class="button secondary">View feats</a>
+          </div>
         </div>
+
+        <div class="hero-image"></div>
+
       </div>
     </section>
 
-    <!-- SNEAK PEEK: a short look at you. Edit the text, then the list below. -->
-    <section class="peek">
-      <div class="section-header">
-        <h2>Sneak Peek</h2>
-        <div class="ridge"></div>
-      </div>
+ 
+    <section class="overview">
 
-      <div class="peek-grid">
-        <!-- PHOTO: the picture goes INSIDE the peek-photo box, which sets its size and the mountain edge -->
-        <div class="peek-photo">
-          <img src="images/peek_img.jpg" alt="Your name">
-        </div>
+      <!-- TOP: photo, name, role, and two buttons -->
+      <div class="profile-head">
+        <!-- YOUR PHOTO: change the file name in src to your own picture -->
+        <div class="profile-photo"><img src="images/peek_img.jpg" alt="Your name"></div>
 
         <div>
-          <p class="peek-lead">Write two or three sentences introducing yourself here. Keep it short and personal.</p>
+          <h2 class="profile-name">Ralph Rafols</h2>
+          <p class="profile-meta">Manila, Philippines</p>
+          <p class="profile-role">Information Technology Student / Aspiring Web Developer</p>
 
-          <!-- To add a row, copy one li line and change the text -->
-          <ul class="peek-facts">
-            <li><span>Studying</span> Your course</li>
-            <li><span>Based in</span> Your city</li>
-            <li><span>Interests</span> Your interests</li>
-          </ul>
-
-          <a href="profile.html" class="button">Full profile</a>
+          <div class="profile-actions">
+            <!-- put your resume file in your project folder and match the name here -->
+            <a href="resume.pdf" class="button">View Resume</a>
+            <a href="mailto:you@email.com" class="button secondary">Send Email</a>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- SECTION: SKILLS. Each section starts with a header and ridgeline divider.
-         To add a skill, copy one li line and change the text. -->
-    <section class="home-section">
-      <div class="section-header">
-        <h2>Skills</h2>
-        <div class="ridge"></div>
+      <!-- TWO COLUMNS: About and Tech Stack on the left, Experience on the right -->
+      <div class="info-grid">
+
+        <div class="info-col">
+
+          <!-- ABOUT: write short paragraphs. Copy a <p> line to add more. -->
+          <article class="info-card">
+            <h3 class="info-title">About</h3>
+            <p>I'm a passionate Information Technology student with a strong interest in web development. I enjoy creating innovative solutions and continuously learning new technologies.</p>
+            <p>When I'm not coding, you can find me exploring the latest tech trends or contributing to open-source projects.</p>
+          </article>
+
+          <!-- TECH STACK: group your skills. To add a skill, copy one li line.
+               To add a group, copy one whole <div class="stack-group"> block. -->
+          <article class="info-card">
+            <h3 class="info-title">Tech Stack</h3>
+
+            <div class="stack-group">
+              <p class="stack-label">Frontend</p>
+              <ul class="skills">
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+              </ul>
+            </div>
+
+            <div class="stack-group">
+              <p class="stack-label">Backend</p>
+              <ul class="skills">
+                <li>Java</li>
+                <li>Skill two</li>
+              </ul>
+            </div>
+
+            <div class="stack-group">
+              <p class="stack-label">Tools</p>
+              <ul class="skills">
+                <li>Networking</li>
+                <li>Git</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <!-- EXPERIENCE: the first entry shows a filled dot (your current one).
+             To add an entry, copy one whole li block. -->
+        <article class="info-card">
+          <h3 class="info-title">Experience</h3>
+          <ul class="mini-timeline">
+            <li>
+              <div><span class="mini-role">Your course - Year level</span><span class="mini-org">Your school</span></div>
+              <span class="mini-year">2026</span>
+            </li>
+            <li>
+              <div><span class="mini-role">Your role</span><span class="mini-org">Company or organization</span></div>
+              <span class="mini-year">2025</span>
+            </li>
+            <li>
+              <div><span class="mini-role">Your project or training</span><span class="mini-org">Short description</span></div>
+              <span class="mini-year">2024</span>
+            </li>
+          </ul>
+        </article>
+
       </div>
-      <ul class="skills">
-        <li>HTML</li>
-        <li>CSS</li>
-        <li>Skill three</li>
-        <li>Skill four</li>
-      </ul>
     </section>
 
     <!-- SECTION: FEATURED FEATS. To add a card, copy from <a class="card"> to </a>. -->

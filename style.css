@@ -9,16 +9,16 @@
 
 /* ---------- 1. SETTINGS: change colors and fonts here ---------- */
 :root {
-  --bg: #121218;        /* page background */
-  --card: #1c1c26;      /* card background */
-  --text: #f4f1ee;      /* main text */
-  --muted: #a3a1ad;     /* softer text */
-  --accent: #e3e0e0;
-  --nav-accent: #cbd5e1; /* nav buttons at rest: the border (Silver Blue accent). The text stays white. */
-  --nav-hover: #94a3b8;  /* nav hover: the text, the border, and the glowing line all use this (Silver Blue hover) */
-  --grad-top: #050507;  /* page gradient: color at the top */
-  --grad-mid: #14141c;  /* page gradient: color in the middle */
-  --grad-end: #2a2230;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
+  --bg: #0a1215;        /* page background */
+  --card: #0f1b1f;      /* card background */
+  --text: #ffffff;      /* main text */
+  --muted: #9aa8ad;     /* softer text */
+  --accent: #00f57f;      /* bright green: buttons, highlights */
+  --nav-accent: #00f57f; /* green: the current page in the nav, card borders, timeline */
+  --nav-hover: #00c968;  /* nav hover: the text and the glowing line (deeper green) */
+  --grad-top: #070d10;  /* page gradient: color at the top */
+  --grad-mid: #0a1418;  /* page gradient: color in the middle */
+  --grad-end: #0d1f1c;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
 
   --font-heading: "Amarante", sans-serif;    /* headers */
   --font-logo: "Syne Mono", monospace;     /* logo name */
@@ -32,30 +32,14 @@ html { scroll-behavior: smooth; }
 
 body {
    /* gradient that runs down the whole page, so it shifts as you scroll */
-  background: linear-gradient(180deg, var(--grad-top) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 245, 127, 0.10), transparent 70%),
+    linear-gradient(180deg, var(--grad-top) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
   background-color: var(--bg);
   min-height: 100vh;
   color: var(--text);
   font-family: var(--font-body);
   line-height: 1.6;
-}
-
-/* PAGE BACKGROUND PICTURE: puts the hero picture at the top of every inner page
-   (Profile, Feats, Contact) and fades it into the gradient as you scroll down.
-   Home is skipped here because it draws its own picture in .hero::before.
-   The picture is the same file: images/hero.jpg
-   To make the picture fade out sooner or later, change the 80% below. */
-body:not(:has(.home))::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  background: url("images/hero.jpg") center 20% / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
 }
 
 h1, h2, h3 { font-family: var(--font-heading); line-height: 1.1; }
@@ -73,9 +57,9 @@ a { color: inherit; }
   display: flex;
   justify-content: space-between;  /* logo left, nav right */
   align-items: center;
-  padding: 24px 75px;
-  background: rgba(18, 18, 24, 0.9);
-  border-bottom: 1px solid #2c2c3a;
+  padding: 5px 75px;
+  background: rgba(10, 18, 21, 0.9);
+  border-bottom: 1px solid #1b2a2f;
   backdrop-filter: blur(8px);
   z-index: 10;
 }
@@ -94,12 +78,12 @@ a { color: inherit; }
   height: 125px;
 }
 
-.logo-image { background: #2a2a38; }       /* grey box until you add your logo */
+.logo-image { background: #172328; }       /* grey box until you add your logo */
 .logo img { object-fit: cover; }
 
 .logo span {
   font-family: var(--font-logo);
-  font-size: 3rem;
+  font-size: 2.7rem;
   font-weight: 400;      /* Syne Mono has only one weight */
 }
 
@@ -147,8 +131,8 @@ nav { display: flex; gap: 25px; }
 
 nav a {
   position: relative;
-  padding: 8px 20px;
-  border: 1px solid var(--nav-accent);
+  padding: 5px 20px;
+  border: 1px solid transparent;   /* invisible, so the current page's border does not shift the layout */
   text-decoration: none;
   color: var(--text);
   font-size: 1.2rem;
@@ -157,13 +141,11 @@ nav a {
 }
 
 nav a.active {
-  color: var(--text);
-  border-color: var(--nav-accent);
+  color: var(--nav-accent);   /* the current page's text color (Silver Blue accent) */
 }
 
 nav a:hover {
   color: var(--nav-hover);
-  border-color: var(--nav-hover);
   text-shadow: 0 0 8px color-mix(in srgb, var(--nav-hover) 60%, transparent);   /* text glow: change 8px for spread, 60% for strength */
 }
 
@@ -217,18 +199,6 @@ main.home { max-width: none; padding: 0; }
 
 }
 
-/* HERO PICTURE: images/hero.jpg, fading out at the bottom so it blends into the gradient.
-   Change "20%" to move the picture up or down. Change "80%" to fade sooner or later. */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  background: url("images/hero.jpg") center 20% / cover no-repeat;
-  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 80%, transparent 100%);
-}
-
 /* keep the text above the picture */
 .hero h1, .hero-name, .hero-buttons { position: relative; z-index: 1; }
 
@@ -263,7 +233,7 @@ main.home { max-width: none; padding: 0; }
 }
 
 .button:hover {
-  box-shadow: 0 10px 25px rgba(134, 30, 108, 0.35);   /* glow under the button */
+  box-shadow: 0 10px 25px rgba(0, 245, 127, 0.3);   /* glow under the button */
 }
 
 .logo {
@@ -273,8 +243,8 @@ main.home { max-width: none; padding: 0; }
 }
 
 .logo:hover {
-  text-shadow: 0 10px 25px rgba(134, 30, 108, 0.35);
-  color: #7dd3fc;   /* Glacier Blue */
+  text-shadow: 0 10px 25px rgba(0, 245, 127, 0.3);
+  color: #00f57f;   /* green */
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
    
 }
@@ -286,106 +256,6 @@ main.home { max-width: none; padding: 0; }
 .button.secondary { border-color: var(--text); }
 .button.secondary:hover {
   box-shadow: 0 10px 25px rgba(244, 241, 238, 0.25);
-}
-
-/* ---------- EXPLORE MENU: hover "Explore" to show your social icons ---------- */
-.explore {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.explore-label {
-  display: block;
-  padding: 10px 24px;
-  color: var(--muted);
-  letter-spacing: 0.3em;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.explore:hover .explore-label { color: var(--accent); }
-.explore:has(:focus-visible) .explore-label { color: var(--accent); }   /* keyboard only */
-
-/* the row of icons, sitting just above the word Explore */
-.explore-menu {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 14px;
-  padding-bottom: 20px;      /* keeps the hover from breaking between the word and the buttons */
-  pointer-events: none;
-}
-
-.explore:hover .explore-menu { pointer-events: auto; }
-.explore:has(:focus-visible) .explore-menu { pointer-events: auto; }   /* keyboard only */
-
-/* hidden state: faded out and sitting a little lower */
-.explore-menu .button {
-  padding: 12px;
-  color: var(--muted);     /* resting icon color */
-  background: rgba(11, 11, 16, 0.7);
-  backdrop-filter: blur(6px);
-  opacity: 0;
-  transform: translateY(calc(var(--lift) + 24px)) rotate(var(--tilt));
-  transition: opacity 0.4s ease var(--delay), transform 0.4s ease var(--delay), box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
-
-/* the icons: size and line style (they take the text color) */
-.explore-menu svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* BRAND COLORS: on hover each icon, its border, and its glow turn into the original colors.
-   To change a color, edit the hex code (the # number). */
-.explore-menu .facebook:hover {
-  color: #1877f2;
-  border-color: #1877f2;
-  box-shadow: 0 10px 25px rgba(24, 119, 242, 0.4);
-}
-
-.explore-menu .instagram:hover {
-  border-color: #d62976;
-  box-shadow: 0 10px 25px rgba(214, 41, 118, 0.4);
-}
-
-.explore-menu .instagram:hover svg { stroke: url(#ig-gradient); }   /* the rainbow gradient */
-
-.explore-menu .github:hover {
-  color: #ffffff;
-  border-color: #ffffff;
-  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25);
-}
-
-/* THE CURVE: the middle button sits highest, the outer buttons sit lower and tilt outward.
-   --lift moves a button down (positive) or up (negative), --tilt rotates it,
-   --delay makes them appear one after another. */
-.explore-menu .button:nth-child(1) { --lift: 20px;  --tilt: -9deg; --delay: 0s; }
-.explore-menu .button:nth-child(2) { --lift: -8px;  --tilt: 0deg;  --delay: 0.08s; }
-.explore-menu .button:nth-child(3) { --lift: 20px;  --tilt: 9deg;  --delay: 0.16s; }
-
-/* shown state: when the mouse is over it, or when tabbing with the keyboard.
-   (A mouse click does not keep it open, so it will not get stuck after you come back.) */
-.explore:hover .explore-menu .button {
-  opacity: 1;
-  transform: translateY(var(--lift)) rotate(var(--tilt));
-}
-
-.explore:has(:focus-visible) .explore-menu .button {
-  opacity: 1;
-  transform: translateY(var(--lift)) rotate(var(--tilt));
 }
 
 /* ---------- 5b. HOME: SNEAK PEEK ---------- */
@@ -405,7 +275,7 @@ main.home { max-width: none; padding: 0; }
 /* photo box */
 .peek-photo {
   aspect-ratio: 4 / 5;
-  background: #2a2a38;     /* grey box until you add your photo */
+  background: #172328;     /* grey box until you add your photo */
   overflow: hidden;
 }
 
@@ -420,7 +290,7 @@ main.home { max-width: none; padding: 0; }
   justify-content: space-between;
   gap: 20px;
   padding: 14px 0;
-  border-bottom: 1px solid #2c2c3a;
+  border-bottom: 1px solid #1b2a2f;
 }
 
 .peek-facts span { color: var(--muted); }
@@ -481,7 +351,7 @@ main.home { max-width: none; padding: 0; }
 
 .card-image {
   height: 180px;
-  background: #2a2a38;     /* placeholder color, see feats.html to add a picture */
+  background: #172328;     /* placeholder color, see feats.html to add a picture */
   overflow: hidden;
 }
 
@@ -504,7 +374,7 @@ main.home { max-width: none; padding: 0; }
   display: flex;
   justify-content: space-between;
   padding: 22px 0;
-  border-bottom: 1px solid #2c2c3a;
+  border-bottom: 1px solid #1b2a2f;
   text-decoration: none;
   font-size: 1.3rem;
   transition: color 0.3s ease, padding-left 0.3s ease;
@@ -531,16 +401,6 @@ main.home { max-width: none; padding: 0; }
 
 /* nav links: the same light, drawn as a sliding background so the link itself
    does not need to clip anything (the glow below needs to spread outside) */
-nav a::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%) no-repeat;
-  background-size: 300% 100%;
-  background-position: 100% 0;                  /* resting spot */
-  transition: background-position 0.6s ease;
-  pointer-events: none;
-}
 
 @media (prefers-reduced-motion: no-preference) {
   .button:hover::after,
@@ -734,7 +594,7 @@ main:not(.home) .section-header {
   gap: 20px;
   padding: 24px;
   background: var(--card);
-  border: 1px solid #2c2c3a;
+  border: 1px solid #1b2a2f;
   border-radius: 12px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -759,7 +619,7 @@ main:not(.home) .section-header {
   width: 56px;
   height: 56px;
   padding: 10px;
-  background: #2a2a38;
+  background: #172328;
   border-radius: 10px;
   overflow: hidden;
 }
@@ -790,7 +650,7 @@ main:not(.home) .section-header {
 /* the progress bar: empty track and the filled part */
 .skill-bar {
   height: 8px;
-  background: #2a2a38;
+  background: #172328;
   border-radius: 999px;
   overflow: hidden;
 }
@@ -829,4 +689,436 @@ body.page-leave main    { animation: pageOut 0.35s ease forwards; }
 @keyframes pageOut {
   from { opacity: 1; transform: translateY(0); }
   to   { opacity: 0; transform: translateY(-20px); }
+}
+
+/* ---------- 16. PROFESSIONAL POLISH ----------
+   Layout and spacing refinements only. Your colors, fonts, effects and
+   the look of the header, buttons and hero are unchanged.
+   Each block says what it does, so you can delete any block you do not like. */
+
+/* 16a. Easier reading: slightly larger body text (Neuton runs small), more line height,
+        balanced headings, and no lonely last words in paragraphs */
+body { font-size: 1.15rem; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* 16b. Smooth scrolling stops below the fixed header, a slim dark scrollbar,
+        and a branded text selection color */
+html {
+  scroll-padding-top: var(--header-h);
+  scrollbar-width: thin;
+  scrollbar-color: #24363c var(--bg);
+}
+
+::selection { background: var(--nav-accent); color: #050507; }
+
+/* 16c. Keyboard focus: a clear outline for people who tab through the site */
+a:focus-visible {
+  outline: 2px solid var(--nav-hover);
+  outline-offset: 4px;
+}
+
+/* 16d. Banner titles (Profile, Feats, Contact): a little larger, and a short
+        centered line instead of a full-width one */
+main:not(.home) .section-header h2 { font-size: clamp(2.5rem, 6vw, 4rem); }
+
+main:not(.home) .section-header .ridge {
+  width: 100%;
+  max-width: 480px;
+  align-self: center;
+}
+
+/* 16e. Home: one even gap (100px) between every section */
+.peek { padding: 80px 40px 50px; }
+.home-section { padding: 50px 40px; }
+main.home > :last-child { padding-bottom: 100px; }
+
+/* 16f. Feats cards: a thin border like the skill cards, which also lights up on hover */
+.card {
+  border: 1px solid #1b2a2f;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover { border-color: var(--nav-accent); }
+
+/* 16g. Contact: the list sits in a centered card under the centered title */
+.contact-list {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--card);
+  border: 1px solid #1b2a2f;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.contact-list a { padding: 22px 28px; }
+.contact-list li:last-child a { border-bottom: none; }
+
+.contact-list a:hover {
+  padding-left: 40px;                         /* slides in a little on hover */
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* 16h. Footer: a thin line above it and a little more room */
+footer {
+  padding: 36px 40px;
+  border-top: 1px solid #1b2a2f;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- 16. PROFESSIONAL LAYOUT TOUCHES ----------
+   Small additions only: your colors, fonts, and effects are untouched. */
+
+/* footer: a thin divider line, like the rest of the page */
+footer { border-top: 1px solid #1b2a2f; }
+
+/* EXPERIENCE TIMELINE (Profile): a glowing center line, entries alternate sides */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, var(--nav-accent) 12%, var(--nav-accent) 88%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--nav-accent) 60%, transparent);
+}
+
+.timeline-item {
+  position: relative;
+  width: 50%;
+  padding: 0 48px 56px 0;
+  text-align: right;
+}
+
+.timeline-item:nth-child(even) {
+  margin-left: 50%;
+  padding: 0 0 56px 48px;
+  text-align: left;
+}
+
+/* the glowing dot on the line */
+.timeline-item::after {
+  content: "";
+  position: absolute;
+  top: 8px; right: -6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--nav-accent);
+  box-shadow: 0 0 12px var(--nav-accent);
+}
+
+.timeline-item:nth-child(even)::after { right: auto; left: -6px; }
+
+.timeline-role { font-family: var(--font-heading); font-size: 1.3rem; line-height: 1.2; }
+.timeline-org  { color: var(--nav-accent); margin-bottom: 4px; }
+.timeline-year { color: var(--muted); letter-spacing: 0.25em; font-size: 0.9rem; margin-bottom: 12px; }
+.timeline-desc { color: var(--muted); }
+
+/* SOCIAL RAIL: one icon fixed at the bottom right of every page (added by script.js).
+   Hover it (or Tab to it) and the social icons fan out in a curved row. */
+.social-rail {
+  position: fixed;
+  right: 28px; bottom: 32px;
+  z-index: 5;
+}
+
+.social-trigger {
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  color: var(--muted);
+  border: 1px solid var(--nav-accent);
+  background: rgba(7, 13, 16, 0.7);
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.social-rail:hover .social-trigger,
+.social-rail:has(:focus-visible) .social-trigger {
+  color: var(--nav-hover);
+  border-color: var(--nav-hover);
+}
+
+/* the menu sits exactly on top of the trigger. Each icon starts hidden behind it
+   and slides out along a quarter circle (straight up, diagonal, straight left). */
+.social-menu {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* invisible area that keeps the menu open while your mouse travels to an icon */
+.social-menu::before {
+  content: "";
+  position: absolute;
+  right: 0; bottom: 0;
+  width: 160px; height: 160px;
+}
+
+.social-rail:hover .social-menu,
+.social-rail:has(:focus-visible) .social-menu { pointer-events: auto; }
+
+.social-link {
+  position: absolute;
+  top: 0; left: 0;
+  display: grid;
+  place-items: center;
+  width: 46px; height: 46px;
+  color: var(--muted);
+  border: 1px solid var(--nav-accent);
+  background: rgba(7, 13, 16, 0.7);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: translate(0, 0) scale(0.6);
+  transition: opacity 0.4s ease var(--delay), transform 0.4s ease var(--delay), color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* THE ARC: --x and --y are how far each icon moves from the trigger (radius 84px).
+   --delay makes them appear one after another. */
+.social-link:nth-child(1) { --x: -84px;  --y: 0px;    --delay: 0s; }       /* left */
+.social-link:nth-child(2) { --x: -59px;  --y: -59px;  --delay: 0.08s; }    /* diagonal */
+.social-link:nth-child(3) { --x: 0px;    --y: -84px;  --delay: 0.16s; }    /* up */
+
+/* shown state */
+.social-rail:hover .social-link,
+.social-rail:has(:focus-visible) .social-link {
+  opacity: 1;
+  transform: translate(var(--x), var(--y)) scale(1);
+}
+
+/* brand colors on hover (edit the hex codes to change them) */
+.social-github:hover   { color: #ffffff; border-color: #ffffff; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25); }
+.social-linkedin:hover { color: #378fe9; border-color: #378fe9; box-shadow: 0 10px 25px rgba(55, 143, 233, 0.4); }
+.social-email:hover    { color: #ea4335; border-color: #ea4335; box-shadow: 0 10px 25px rgba(234, 67, 53, 0.4); }
+
+.social-rail svg {
+  display: block;
+  width: 22px; height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (max-width: 700px) {
+  .social-rail { display: none; }
+
+  /* timeline: one column, line on the left */
+  .timeline::before { left: 6px; }
+  .timeline-item,
+  .timeline-item:nth-child(even) {
+    width: 100%;
+    margin-left: 0;
+    padding: 0 0 40px 36px;
+    text-align: left;
+  }
+  .timeline-item::after,
+  .timeline-item:nth-child(even)::after { left: 0; right: auto; }
+}
+
+/* ---------- 17. EXPLORE MENU REMOVED ----------
+   Hides the leftover Explore block if it is still in index.html.
+   Once you delete that block from index.html, you can delete this rule too. */
+.explore { display: none; }
+
+/* ---------- 18. HOME: PROFILE OVERVIEW (photo header, About, Tech Stack, Experience cards) ----------
+   Uses your existing colors, fonts, buttons, and skill pills. */
+.overview {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 40px 50px;
+}
+
+/* top row: photo on the left, name and buttons on the right */
+.profile-head {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.profile-photo {
+  flex-shrink: 0;
+  width: 150px;
+  height: 180px;
+  background: #172328;       /* grey box until you add your photo */
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+.profile-name { margin-bottom: 6px; font-size: clamp(2rem, 4vw, 2.8rem); }
+.profile-meta { color: var(--muted); font-size: 1rem; }
+.profile-role { margin-top: 6px; }
+
+.profile-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 20px; }
+.profile-actions .button { padding: 10px 24px; font-size: 1rem; }
+
+/* two columns of cards */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.info-col { display: flex; flex-direction: column; gap: 28px; }
+
+.info-card {
+  padding: 28px;
+  background: var(--card);
+  border: 1px solid #1b2a2f;
+  border-radius: 12px;
+}
+
+/* card title with a small accent bar before it */
+.info-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.info-title::before {
+  content: "";
+  width: 4px;
+  height: 1.1em;
+  background: var(--nav-accent);
+  border-radius: 2px;
+}
+
+.info-card > p { margin-bottom: 14px; color: var(--muted); }
+.info-card > p:last-child { margin-bottom: 0; }
+
+/* tech stack groups */
+.stack-group { margin-bottom: 22px; }
+.stack-group:last-child { margin-bottom: 0; }
+.stack-label { margin-bottom: 10px; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.info-card .skills { gap: 10px; }
+.info-card .skills li { padding: 4px 14px; font-size: 0.95rem; }
+
+/* experience: dots on a thin line, year on the right */
+.mini-timeline { position: relative; list-style: none; }
+
+.mini-timeline::before {
+  content: "";
+  position: absolute;
+  top: 10px; bottom: 28px; left: 4px;
+  width: 1px;
+  background: #1b2a2f;
+}
+
+.mini-timeline li {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 0 26px 28px;
+}
+
+.mini-timeline li:last-child { padding-bottom: 0; }
+
+.mini-timeline li::before {
+  content: "";
+  position: absolute;
+  top: 8px; left: 0;
+  width: 9px; height: 9px;
+  border: 1px solid var(--nav-accent);
+  border-radius: 50%;
+  background: var(--card);
+}
+
+.mini-timeline li:first-child::before {
+  background: var(--nav-accent);
+  box-shadow: 0 0 10px var(--nav-accent);
+}
+
+.mini-role { display: block; }
+.mini-org { display: block; color: var(--muted); font-size: 0.95rem; }
+.mini-year { color: var(--muted); font-size: 0.9rem; letter-spacing: 0.1em; }
+
+@media (max-width: 900px) {
+  .info-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .overview { padding: 60px 20px 40px; }
+  .profile-head { flex-direction: column; text-align: center; }
+  .profile-actions { justify-content: center; }
+}
+
+/* ---------- 19. HOME HERO: split layout (text on the left, round photo on the right) ---------- */
+.hero-split {
+  align-items: center;
+  text-align: left;
+  padding: 150px 40px 90px;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 60px;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.hero-hello {
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-size: 1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.hero-split h1 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); margin-bottom: 18px; }
+.hero-sub  { margin-bottom: 14px; font-size: 1.35rem; }
+.hero-desc { max-width: 520px; margin-bottom: 28px; color: var(--muted); }
+
+.hero-split .hero-buttons { justify-content: flex-start; gap: 16px; }
+
+/* the typing line: "Hello, I'm" is green, and when your name is typed it turns white with normal letters */
+.hero-hello.is-name {
+  color: var(--text);
+  letter-spacing: 0.08em;
+  text-transform: none;
+}
+
+/* first button filled green, second outlined green */
+.hero-split .button { background: var(--accent); color: #04110b; border-color: var(--accent); }
+.hero-split .button.secondary { background: transparent; color: var(--accent); }
+
+.hero-contact { margin-top: 26px; color: var(--muted); font-size: 1rem; }
+
+/* the image box: a portrait box with rounded corners, a green border and a soft glow.
+   For a square box, change 4 / 5 to 1 / 1. For sharper corners, lower the 16px values. */
+.hero-image {
+  justify-self: center;
+  width: min(100%, 380px);
+  aspect-ratio: 4 / 5;
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  background: #172328;       /* grey until you add your photo */
+  box-shadow: 0 0 60px rgba(0, 245, 127, 0.18);
+  overflow: hidden;
+}
+
+.hero-image img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 50px; }
+  .hero-image { width: min(100%, 300px); }
+}
+
+@media (max-width: 600px) {
+  .hero-split { padding: 170px 20px 80px; }
 }
