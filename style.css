@@ -1,20 +1,36 @@
+/* ==========================================================
+   STYLE.CSS (shared by all pages)
+   Edit the values in the SETTINGS block to restyle the site.
+   ========================================================== */
+
+/* FONTS loaded from Google Fonts (needs internet): Ubuntu for headers, Syne Mono for the logo */
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&family=Syne+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Amarante&family=Libertinus+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Syne+Mono&display=swap");
 
 /* ---------- 1. SETTINGS: change colors and fonts here ---------- */
 :root {
-  --bg: #0a1215;        /* page background */
-  --card: #0f1b1f;      /* card background */
-  --text: #ffffff;      /* main text */
-  --muted: #9aa8ad;     /* softer text */
-  --accent: #00f57f;      /* bright green: buttons, highlights */
-  --nav-accent: #00f57f; /* green: the current page in the nav, card borders, timeline */
-  --nav-hover: #00c968;  /* deeper green used for hover accents */
-  --grad-top: #070d10;  /* page gradient: color at the top */
-  --grad-mid: #0a1418;  /* page gradient: color in the middle */
-  --grad-end: #0d1f1c;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
+  --bg: #fafaf7;        /* page background */
+  --card: #ffffff;      /* card background */
+  --text: #141414;      /* main text */
+  --muted: #6b6b66;     /* softer text */
+  --accent: #00c968;      /* green: buttons, borders */
+  --nav-accent: #00875a; /* dark green: the current page in the nav, small text highlights, timeline */
+  --nav-hover: #006b47;  /* nav hover line (deepest green) */
+  --grad-top: #ffffff;  /* page gradient: color at the top */
+  --grad-mid: #fafaf7;  /* page gradient: color in the middle */
+  --grad-end: #f3f1ea;  /* page gradient: color at the bottom */    /* hover color, buttons, underline */
 
-  --font-heading: "Amarante", sans-serif;    /* headers */
+  --nav-bg: rgba(0, 0, 0, 0.04);   /* background of the nav bar */
+  --line: #e7e5df;           /* thin borders and dividers */
+  --placeholder: #ecebe6;    /* grey boxes before you add pictures */
+  --header-bg: rgba(250, 250, 247, 0.92);   /* header bar */
+  --glass: rgba(255, 255, 255, 0.85);       /* social icon boxes */
+  --scroll: #d4d2cb;         /* scrollbar */
+  --shadow: rgba(0, 0, 0, 0.08);            /* soft hover shadows */
+  --hover-tint: rgba(0, 0, 0, 0.03);        /* faint tint on contact rows */
+
+  --font-heading: "Montserrat", sans-serif;    /* headers */
   --font-logo: "Syne Mono", monospace;     /* logo name */
   --font-body: "Neuton", serif;           /* paragraphs */
 }
@@ -26,9 +42,7 @@ html { scroll-behavior: smooth; }
 
 body {
    /* gradient that runs down the whole page, so it shifts as you scroll */
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 245, 127, 0.10), transparent 70%),
-    linear-gradient(180deg, var(--grad-top) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
+  background: linear-gradient(180deg, var(--grad-top) 0%, var(--grad-mid) 55%, var(--grad-end) 100%);
   background-color: var(--bg);
   min-height: 100vh;
   color: var(--text);
@@ -52,8 +66,8 @@ a { color: inherit; }
   justify-content: space-between;  /* logo left, nav right */
   align-items: center;
   padding: 5px 75px;
-  background: rgba(10, 18, 21, 0.9);
-  border-bottom: 1px solid #1b2a2f;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
   z-index: 10;
 }
@@ -72,7 +86,7 @@ a { color: inherit; }
   height: 125px;
 }
 
-.logo-image { background: #172328; }       /* grey box until you add your logo */
+.logo-image { background: var(--placeholder); }       /* grey box until you add your logo */
 .logo img { object-fit: cover; }
 
 .logo span {
@@ -121,42 +135,48 @@ a { color: inherit; }
   stroke-linejoin: round;
 }
 
-nav { display: flex; gap: 16px; }
+nav {
+  display: flex;
+  gap: 25px;
+  margin-left: auto;              /* keeps the nav at the right of the header */
+  padding: 4px 10px;
+  background: var(--nav-bg);      /* a slightly different background behind the nav links */
+  border: 1px solid var(--line);
+  border-radius: 10px;            /* change 10px for rounder or squarer corners */
+}
 
 nav a {
   position: relative;
-  padding: 5px 14px;
+  padding: 5px 20px;
   border: 1px solid transparent;   /* invisible, so the current page's border does not shift the layout */
   text-decoration: none;
   color: var(--text);
   font-size: 1.2rem;
   letter-spacing: 0.1em;
-  transition: color 0.2s ease;
-}
-
-nav a::after {
-  content: "";
-  position: absolute;
-  right: 14px;
-  bottom: 0;
-  left: 14px;
-  height: 1px;
-  background: var(--nav-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.2s ease;
+  transition: color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
 }
 
 nav a.active {
-  color: var(--nav-accent);
+  color: var(--nav-accent);   /* the current page's text color (green accent) */
 }
 
-nav a:is(:hover, :focus-visible) {
-  color: var(--nav-accent);
+/* NAV HOVER: a thin line slides in along the bottom (enters from the left, leaves to the right). It spans the whole link.
+   To change its color, edit --nav-hover. For a thicker line, change the 2px. */
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 2px;
+  background: var(--nav-hover);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s ease;
 }
 
-nav a:is(:hover, :focus-visible, .active)::after {
+nav a:hover::after,
+nav a:focus-visible::after {
   transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* ---------- 4. PAGE LAYOUT ---------- */
@@ -243,19 +263,17 @@ main.home { max-width: none; padding: 0; }
 }
 
 .button:hover {
-  box-shadow: 0 10px 25px rgba(0, 245, 127, 0.3);   /* glow under the button */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);   /* soft shadow under the button */
 }
 
 .logo {
-  color: #e0e0e0;
+  color: var(--text);
   text-decoration: none;
   transition: text-shadow 0.3s ease, color 0.3s ease;
 }
 
 .logo:hover {
-  text-shadow: 0 10px 25px rgba(0, 245, 127, 0.3);
-  color: #00f57f;   /* green */
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+  color: var(--nav-accent);   /* amber */
    
 }
 
@@ -265,7 +283,7 @@ main.home { max-width: none; padding: 0; }
 /* second button, white outline */
 .button.secondary { border-color: var(--text); }
 .button.secondary:hover {
-  box-shadow: 0 10px 25px rgba(244, 241, 238, 0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 /* ---------- 5b. HOME: SNEAK PEEK ---------- */
@@ -285,7 +303,7 @@ main.home { max-width: none; padding: 0; }
 /* photo box */
 .peek-photo {
   aspect-ratio: 4 / 5;
-  background: #172328;     /* grey box until you add your photo */
+  background: var(--placeholder);     /* grey box until you add your photo */
   overflow: hidden;
 }
 
@@ -300,7 +318,7 @@ main.home { max-width: none; padding: 0; }
   justify-content: space-between;
   gap: 20px;
   padding: 14px 0;
-  border-bottom: 1px solid #1b2a2f;
+  border-bottom: 1px solid var(--line);
 }
 
 .peek-facts span { color: var(--muted); }
@@ -356,12 +374,12 @@ main.home { max-width: none; padding: 0; }
 
 .card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 30px var(--shadow);
 }
 
 .card-image {
   height: 180px;
-  background: #172328;     /* placeholder color, see feats.html to add a picture */
+  background: var(--placeholder);     /* placeholder color, see feats.html to add a picture */
   overflow: hidden;
 }
 
@@ -384,7 +402,7 @@ main.home { max-width: none; padding: 0; }
   display: flex;
   justify-content: space-between;
   padding: 22px 0;
-  border-bottom: 1px solid #1b2a2f;
+  border-bottom: 1px solid var(--line);
   text-decoration: none;
   font-size: 1.3rem;
   transition: color 0.3s ease, padding-left 0.3s ease;
@@ -409,6 +427,9 @@ main.home { max-width: none; padding: 0; }
   pointer-events: none;
 }
 
+/* nav links: the same light, drawn as a sliding background so the link itself
+   does not need to clip anything (the glow below needs to spread outside) */
+
 @media (prefers-reduced-motion: no-preference) {
   .button:hover::after,
   .button:focus-visible::after {
@@ -430,9 +451,8 @@ footer {
   .logo-image, .logo img { width: 80px; height: 80px; }
   .logo span { font-size: 2rem; }
   .logo-icon { height: 2rem; }
-  nav { gap: 8px; }
-  nav a { padding: 12px 12px; font-size: 1rem; }
-  nav a::after { right: 12px; left: 12px; }
+  nav { gap: 12px; }
+  nav a { padding: 12px 18px; font-size: 1rem; }
   main { padding-top: 150px; }
   .peek-grid { grid-template-columns: 1fr; }
   .peek-photo { max-width: 360px; }
@@ -444,9 +464,8 @@ footer {
   .logo-image, .logo img { width: 50px; height: 50px; }
   .logo span { font-size: 1.3rem; }
   .logo-icon { height: 1.3rem; }
-  nav { gap: 4px; }
-  nav a { padding: 8px 10px; font-size: 0.9rem; letter-spacing: 0.05em; }
-  nav a::after { right: 10px; left: 10px; }
+  nav { gap: 8px; }
+  nav a { padding: 8px 14px; font-size: 0.9rem; letter-spacing: 0.05em; }
   main { padding: 170px 20px 60px; }
   .hero { padding: 170px 20px 100px; }
   .hero-name { font-size: 2rem; }
@@ -533,7 +552,7 @@ main:not(.home) .section-header {
   gap: 20px;
   padding: 24px;
   background: var(--card);
-  border: 1px solid #1b2a2f;
+  border: 1px solid var(--line);
   border-radius: 12px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -541,7 +560,7 @@ main:not(.home) .section-header {
 .skill:hover {
   transform: translateY(-6px);
   border-color: var(--nav-accent);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 12px 30px var(--shadow);
 }
 
 .skill-head {
@@ -558,7 +577,7 @@ main:not(.home) .section-header {
   width: 56px;
   height: 56px;
   padding: 10px;
-  background: #172328;
+  background: var(--placeholder);
   border-radius: 10px;
   overflow: hidden;
 }
@@ -589,7 +608,7 @@ main:not(.home) .section-header {
 /* the progress bar: empty track and the filled part */
 .skill-bar {
   height: 8px;
-  background: #172328;
+  background: var(--placeholder);
   border-radius: 999px;
   overflow: hidden;
 }
@@ -646,10 +665,10 @@ p { text-wrap: pretty; }
 html {
   scroll-padding-top: var(--header-h);
   scrollbar-width: thin;
-  scrollbar-color: #24363c var(--bg);
+  scrollbar-color: var(--scroll) var(--bg);
 }
 
-::selection { background: var(--nav-accent); color: #050507; }
+::selection { background: var(--accent); color: #ffffff; }
 
 /* 16c. Keyboard focus: a clear outline for people who tab through the site */
 a:focus-visible {
@@ -674,7 +693,7 @@ main.home > :last-child { padding-bottom: 100px; }
 
 /* 16f. Feats cards: a thin border like the skill cards, which also lights up on hover */
 .card {
-  border: 1px solid #1b2a2f;
+  border: 1px solid var(--line);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
@@ -685,7 +704,7 @@ main.home > :last-child { padding-bottom: 100px; }
   max-width: 720px;
   margin: 0 auto;
   background: var(--card);
-  border: 1px solid #1b2a2f;
+  border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -695,13 +714,13 @@ main.home > :last-child { padding-bottom: 100px; }
 
 .contact-list a:hover {
   padding-left: 40px;                         /* slides in a little on hover */
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--hover-tint);
 }
 
 /* 16h. Footer: a thin line above it and a little more room */
 footer {
   padding: 36px 40px;
-  border-top: 1px solid #1b2a2f;
+  border-top: 1px solid var(--line);
   letter-spacing: 0.04em;
 }
 
@@ -709,7 +728,7 @@ footer {
    Small additions only: your colors, fonts, and effects are untouched. */
 
 /* footer: a thin divider line, like the rest of the page */
-footer { border-top: 1px solid #1b2a2f; }
+footer { border-top: 1px solid var(--line); }
 
 /* EXPERIENCE TIMELINE (Profile): a glowing center line, entries alternate sides */
 .timeline {
@@ -725,7 +744,6 @@ footer { border-top: 1px solid #1b2a2f; }
   width: 2px;
   transform: translateX(-50%);
   background: linear-gradient(to bottom, transparent, var(--nav-accent) 12%, var(--nav-accent) 88%, transparent);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--nav-accent) 60%, transparent);
 }
 
 .timeline-item {
@@ -749,7 +767,6 @@ footer { border-top: 1px solid #1b2a2f; }
   width: 12px; height: 12px;
   border-radius: 50%;
   background: var(--nav-accent);
-  box-shadow: 0 0 12px var(--nav-accent);
 }
 
 .timeline-item:nth-child(even)::after { right: auto; left: -6px; }
@@ -773,7 +790,7 @@ footer { border-top: 1px solid #1b2a2f; }
   width: 46px; height: 46px;
   color: var(--muted);
   border: 1px solid var(--nav-accent);
-  background: rgba(7, 13, 16, 0.7);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   cursor: pointer;
   transition: color 0.3s ease, border-color 0.3s ease;
@@ -812,7 +829,7 @@ footer { border-top: 1px solid #1b2a2f; }
   width: 46px; height: 46px;
   color: var(--muted);
   border: 1px solid var(--nav-accent);
-  background: rgba(7, 13, 16, 0.7);
+  background: var(--glass);
   backdrop-filter: blur(6px);
   opacity: 0;
   transform: translate(0, 0) scale(0.6);
@@ -833,7 +850,7 @@ footer { border-top: 1px solid #1b2a2f; }
 }
 
 /* brand colors on hover (edit the hex codes to change them) */
-.social-github:hover   { color: #ffffff; border-color: #ffffff; box-shadow: 0 10px 25px rgba(255, 255, 255, 0.25); }
+.social-github:hover   { color: var(--text); border-color: var(--text); box-shadow: 0 6px 16px var(--shadow); }
 .social-linkedin:hover { color: #378fe9; border-color: #378fe9; box-shadow: 0 10px 25px rgba(55, 143, 233, 0.4); }
 .social-email:hover    { color: #ea4335; border-color: #ea4335; box-shadow: 0 10px 25px rgba(234, 67, 53, 0.4); }
 
@@ -873,7 +890,7 @@ footer { border-top: 1px solid #1b2a2f; }
 .overview {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 40px 50px;
+  padding: 20px 40px 50px;   /* small gap under the hero */
 }
 
 /* top row: photo on the left, name and buttons on the right */
@@ -888,7 +905,7 @@ footer { border-top: 1px solid #1b2a2f; }
   flex-shrink: 0;
   width: 150px;
   height: 180px;
-  background: #172328;       /* grey box until you add your photo */
+  background: var(--placeholder);       /* grey box until you add your photo */
   border-radius: 12px;
   overflow: hidden;
 }
@@ -915,7 +932,7 @@ footer { border-top: 1px solid #1b2a2f; }
 .info-card {
   padding: 28px;
   background: var(--card);
-  border: 1px solid #1b2a2f;
+  border: 1px solid var(--line);
   border-radius: 12px;
 }
 
@@ -953,7 +970,7 @@ footer { border-top: 1px solid #1b2a2f; }
   position: absolute;
   top: 10px; bottom: 28px; left: 4px;
   width: 1px;
-  background: #1b2a2f;
+  background: var(--line);
 }
 
 .mini-timeline li {
@@ -978,7 +995,6 @@ footer { border-top: 1px solid #1b2a2f; }
 
 .mini-timeline li:first-child::before {
   background: var(--nav-accent);
-  box-shadow: 0 0 10px var(--nav-accent);
 }
 
 .mini-role { display: block; }
@@ -990,7 +1006,7 @@ footer { border-top: 1px solid #1b2a2f; }
 }
 
 @media (max-width: 600px) {
-  .overview { padding: 60px 20px 40px; }
+  .overview { padding: 20px 20px 40px; }
   .profile-head { flex-direction: column; text-align: center; }
   .profile-actions { justify-content: center; }
 }
@@ -999,21 +1015,20 @@ footer { border-top: 1px solid #1b2a2f; }
 .hero-split {
   align-items: center;
   text-align: left;
-  padding: 150px 40px 90px;
+  padding: 150px 75px 90px;     /* left edge lines up with the logo */
 }
 
 .hero-inner {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 60px;
+  grid-template-columns: 300px 1fr;   /* photo column (change 300px to resize), details on the right */
+  gap: 56px;
   align-items: center;
   width: 100%;
-  max-width: 1100px;
 }
 
 .hero-hello {
   margin-bottom: 14px;
-  color: var(--accent);
+  color: var(--nav-accent);
   font-size: 1rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
@@ -1034,30 +1049,131 @@ footer { border-top: 1px solid #1b2a2f; }
 
 /* first button filled green, second outlined green */
 .hero-split .button { background: var(--accent); color: #04110b; border-color: var(--accent); }
-.hero-split .button.secondary { background: transparent; color: var(--accent); }
+.hero-split .button.secondary { background: transparent; color: var(--text); }
 
 .hero-contact { margin-top: 26px; color: var(--muted); font-size: 1rem; }
 
 /* the image box: a portrait box with rounded corners, a green border and a soft glow.
    For a square box, change 4 / 5 to 1 / 1. For sharper corners, lower the 16px values. */
 .hero-image {
-  justify-self: center;
-  width: min(100%, 380px);
+  order: -1;                 /* puts the photo on the left */
+  justify-self: start;
+  width: 100%;
   aspect-ratio: 4 / 5;
-  border: 2px solid var(--accent);
+  border: 1px solid var(--line);
   border-radius: 16px;
-  background: #172328;       /* grey until you add your photo */
-  box-shadow: 0 0 60px rgba(0, 245, 127, 0.18);
+  background: var(--placeholder);       /* grey until you add your photo */
   overflow: hidden;
 }
 
 .hero-image img { width: 100%; height: 100%; object-fit: cover; }
 
+/* HERO DETAILS: three small cards on the right, stepping inward like a staircase */
+.hero-inner { grid-template-columns: 300px 1fr minmax(240px, 330px); }
+
+.hero-details {
+  order: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.detail {
+  padding: 18px 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.detail:nth-child(2) { margin-left: 28px; }
+.detail:nth-child(3) { margin-left: 56px; }
+.detail:hover { border-color: var(--nav-accent); }
+
+.detail-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--nav-accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.detail p { font-size: 1.2rem; line-height: 1.4; }
+
+/* on medium screens the cards move under the text, side by side */
+@media (max-width: 1200px) {
+  .hero-inner { grid-template-columns: 300px 1fr; }
+  .hero-details { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
+  .detail { flex: 1 1 220px; }
+  .detail:nth-child(2), .detail:nth-child(3) { margin-left: 0; }
+}
+
 @media (max-width: 900px) {
+  .hero-split { padding-left: 30px; padding-right: 30px; }
   .hero-inner { grid-template-columns: 1fr; gap: 50px; }
-  .hero-image { width: min(100%, 300px); }
+  .hero-image { width: min(100%, 260px); justify-self: center; }
 }
 
 @media (max-width: 600px) {
   .hero-split { padding: 170px 20px 80px; }
+}
+
+/* ---------- 20. DARK MODE ----------
+   script.js adds data-theme="dark" to the page when the moon/sun button in the nav is clicked,
+   and remembers the choice. These are the dark colors: edit them to restyle dark mode. */
+:root[data-theme="dark"] {
+  --bg: #0a1215;
+  --card: #0f1b1f;
+  --text: #f2f2ee;
+  --muted: #9aa8ad;
+  --accent: #00f57f;
+  --nav-accent: #00f57f;
+  --nav-hover: #00c968;
+  --grad-top: #070d10;
+  --grad-mid: #0a1418;
+  --grad-end: #0d1f1c;
+  --nav-bg: rgba(255, 255, 255, 0.05);
+  --line: #1b2a2f;
+  --placeholder: #172328;
+  --header-bg: rgba(10, 18, 21, 0.9);
+  --glass: rgba(7, 13, 16, 0.8);
+  --scroll: #24363c;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --hover-tint: rgba(255, 255, 255, 0.04);
+}
+
+/* the dark/light button at the end of the nav */
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  align-self: center;
+  margin-left: 16px;          /* gap between the nav bar and the button */
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--text);
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible { color: var(--nav-accent); border-color: var(--nav-accent); }
+
+.theme-toggle svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* phones: the header stacks, so the nav and the button center instead of pushing right */
+@media (max-width: 600px) {
+  nav, .theme-toggle { margin-left: 0; }
 }

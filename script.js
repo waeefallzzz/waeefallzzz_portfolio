@@ -185,90 +185,44 @@ if (title && !reduceMotion) {
 })();
 
 /* ==========================================================
-   SCROLL ANIMATIONS (inspired by your video)
-   1. Reveal: cards, titles and text fade up out of a blur, one after another,
-      as they scroll into view.
-   2. Grow: big blocks (the Home cards, Featured Feats, skills, timeline)
-      start slightly smaller and grow to full size as you scroll to them.
-   Nothing to add in your HTML: this finds the right elements by itself.
-   Skipped if reduced motion is on.
+   DARK MODE: adds a moon/sun button at the end of the nav.
+   Click it to switch between light and dark. Your choice is remembered
+   on every page. The colors are in style.css, section 20.
    ========================================================== */
 (function () {
-  if (reduceMotion) return;
+  const KEY = "theme";
+  const root = document.documentElement;
 
-  /* ---------- SETTINGS ---------- */
-  const REVEAL = [
-    ".overview .profile-head", ".info-card", ".home-section .section-header",
-    ".home-section .card", ".home-note", ".home-section > .button",
-    ".skill", ".timeline-item", ".profile-block .sub-title", ".contact-list li"
-  ].join(", ");
-  const GROW = ".info-grid, .home-section .grid, .skill-grid, .timeline";
-  const GROW_FROM = 0.9;     /* starting size of the growing blocks (1 = full size) */
-  const STAGGER   = 0.1;     /* seconds between items that appear together */
+  function load() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
 
-  /* ---------- the look of the reveal ---------- */
-  const style = document.createElement("style");
-  style.textContent = `
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      filter: blur(8px);
-      transition: opacity 0.8s ease, transform 0.8s ease, filter 0.8s ease;
-      transition-delay: var(--d, 0s);
-    }
-    .reveal.is-visible { opacity: 1; transform: none; filter: none; }
-    .grow { transform-origin: center top; will-change: transform; }
-  `;
-  document.head.appendChild(style);
+  root.dataset.theme = load() === "dark" ? "dark" : "light";
 
-  /* ---------- 1. REVEAL ---------- */
-  const items = document.querySelectorAll(REVEAL);
+  const nav = document.querySelector("nav");
+  if (!nav) return;
 
-  items.forEach(function (el) {
-    const group = Array.from(el.parentElement.children).filter((c) => c.matches(REVEAL));
-    el.style.setProperty("--d", Math.min(group.indexOf(el), 5) * STAGGER + "s");
-    el.classList.add("reveal");
+  const MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+  const SUN  = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "theme-toggle";
+
+  /* shows a moon in light mode (click for dark) and a sun in dark mode (click for light) */
+  function paint() {
+    const dark = root.dataset.theme === "dark";
+    const label = dark ? "Switch to light mode" : "Switch to dark mode";
+    button.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (dark ? SUN : MOON) + "</svg>";
+    button.setAttribute("aria-label", label);
+    button.title = label;
+  }
+
+  button.addEventListener("click", function () {
+    root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
+    save(root.dataset.theme);
+    paint();
   });
 
-  const observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (!entry.isIntersecting) return;
-      const el = entry.target;
-      el.classList.add("is-visible");
-      observer.unobserve(el);
-
-      /* when the reveal is done, hand the element back to its normal hover effects */
-      el.addEventListener("transitionend", function done(e) {
-        if (e.propertyName !== "opacity") return;
-        el.removeEventListener("transitionend", done);
-        el.classList.remove("reveal", "is-visible");
-        el.style.removeProperty("--d");
-      });
-    });
-  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
-
-  items.forEach((el) => observer.observe(el));
-
-  /* ---------- 2. GROW ON SCROLL ---------- */
-  const growing = document.querySelectorAll(GROW);
-  growing.forEach((el) => el.classList.add("grow"));
-
-  let waiting = false;
-  function updateGrow() {
-    const vh = window.innerHeight;
-    growing.forEach(function (el) {
-      const top = el.getBoundingClientRect().top;
-      const progress = Math.min(1, Math.max(0, (vh - top) / (vh * 0.7)));
-      el.style.transform = progress >= 1 ? "none" : "scale(" + (GROW_FROM + (1 - GROW_FROM) * progress) + ")";
-    });
-    waiting = false;
-  }
-
-  function requestUpdate() {
-    if (!waiting) { waiting = true; requestAnimationFrame(updateGrow); }
-  }
-
-  window.addEventListener("scroll", requestUpdate, { passive: true });
-  window.addEventListener("resize", requestUpdate);
-  updateGrow();
+  nav.appendChild(button);
+  paint();
 })();
