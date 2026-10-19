@@ -1,27 +1,16 @@
-/* ==========================================================
-   SCRIPT.JS: typewriter on the Home hero
-   It types "Hello, I'm", erases it, types your name, erases it, and repeats.
-   The words come from data-words on the hero-hello line in index.html.
-   Separate the words with a | sign, like data-words="Hello, I'm|Your Name".
-   ========================================================== */
-
-/* ---------- SETTINGS: change these numbers (1000 = 1 second) ---------- */
-const TYPE_SPEED  = 90;    /* time per letter while writing */
-const ERASE_SPEED = 45;    /* time per letter while erasing */
-const HOLD_TIME   = 1800;  /* how long each finished word stays */
-const PAUSE_TIME  = 500;   /* pause when the line is empty */
+const TYPE_SPEED  = 90;
+const ERASE_SPEED = 45;
+const HOLD_TIME   = 1800;
+const PAUSE_TIME  = 500;
 
 const title = document.querySelector(".hero-hello");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* does nothing on other pages, or for people who turned animations off
-   (they just see the plain text that is already in the HTML) */
 if (title && !reduceMotion) {
 
   const words = (title.dataset.words || title.textContent)
     .split("|").map((w) => w.trim()).filter(Boolean);
 
-  /* ---------- the blinking line after the letters ---------- */
   const style = document.createElement("style");
   style.textContent = `
     .hero-hello { min-height: 1.7em; }
@@ -38,7 +27,6 @@ if (title && !reduceMotion) {
   `;
   document.head.appendChild(style);
 
-  /* screen readers read the full line, not the half-typed letters */
   title.setAttribute("aria-label", words.join(" "));
 
   const text = document.createElement("span");
@@ -54,15 +42,15 @@ if (title && !reduceMotion) {
   async function loop() {
     while (true) {
       for (let i = 0; i < words.length; i++) {
-        title.classList.toggle("is-name", i > 0);        /* every word after the first is styled as your name */
+        title.classList.toggle("is-name", i > 0);
 
-        for (let n = 1; n <= words[i].length; n++) {     /* write */
+        for (let n = 1; n <= words[i].length; n++) {
           text.textContent = words[i].slice(0, n);
           await wait(TYPE_SPEED);
         }
         await wait(HOLD_TIME);
 
-        for (let n = words[i].length - 1; n >= 0; n--) { /* erase */
+        for (let n = words[i].length - 1; n >= 0; n--) {
           text.textContent = words[i].slice(0, n);
           await wait(ERASE_SPEED);
         }
@@ -74,15 +62,9 @@ if (title && !reduceMotion) {
   loop();
 }
 
-/* ==========================================================
-   LOGO: on hover the letters scramble into random characters,
-   then settle back into the name, one by one from left to right.
-   (No icon. Scrambling only.)
-   ========================================================== */
 (function () {
-  /* ---------- SETTINGS ---------- */
-  const SCRAMBLE_TIME = 600; /* how long all the letters scramble (1000 = 1 second) */
-  const SETTLE_STEP   = 70;  /* time between each letter settling back into place */
+  const SCRAMBLE_TIME = 600;
+  const SETTLE_STEP   = 70;
   const RANDOM_LETTERS = "abcdefghijklmnopqrstuvwxyz0123456789#@$%&*?";
 
   const logo = document.querySelector(".logo");
@@ -92,13 +74,11 @@ if (title && !reduceMotion) {
   const original = logoText.textContent.trim();
   const randomChar = () => RANDOM_LETTERS[Math.floor(Math.random() * RANDOM_LETTERS.length)];
 
-  /* screen readers should read the real name, not the scrambled letters */
   logo.setAttribute("aria-label", original);
   logoText.setAttribute("aria-hidden", "true");
 
   let timer = null;
 
-  /* mouse enters: scramble, then settle back into the name */
   function scramble() {
     clearInterval(timer);
     const start = Date.now();
@@ -117,17 +97,9 @@ if (title && !reduceMotion) {
   logo.addEventListener("mouseenter", scramble);
 })();
 
-/* ==========================================================
-   PAGE CHANGE: when you click a link to another page of this site,
-   the header and the page fade out first, then the next page opens
-   (and fades in by itself, see style.css section 15).
-   Links that open in a new tab, go to other sites, or stay on the
-   same page are left alone. Skipped if reduced motion is on.
-   ========================================================== */
 (function () {
-  const LEAVE_TIME = 350;   /* must match the 0.35s in style.css section 15 (1000 = 1 second) */
+  const LEAVE_TIME = 350;
 
-  /* when you come back with the Back button, make sure the page is visible again */
   window.addEventListener("pageshow", function (e) {
     if (e.persisted) document.body.classList.remove("page-leave");
   });
@@ -137,11 +109,11 @@ if (title && !reduceMotion) {
   document.querySelectorAll("a[href]").forEach(function (link) {
     link.addEventListener("click", function (e) {
       if (e.defaultPrevented || e.button !== 0) return;
-      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;       /* new tab shortcuts */
-      if (link.target && link.target !== "_self") return;                 /* opens in a new tab */
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      if (link.target && link.target !== "_self") return;
       if (link.hasAttribute("download")) return;
-      if (link.protocol !== location.protocol || link.host !== location.host) return;   /* other sites, mailto */
-      if (link.pathname === location.pathname) return;                    /* same page, # links */
+      if (link.protocol !== location.protocol || link.host !== location.host) return;
+      if (link.pathname === location.pathname) return;
 
       e.preventDefault();
       document.body.classList.add("page-leave");
@@ -150,11 +122,6 @@ if (title && !reduceMotion) {
   });
 })();
 
-/* ==========================================================
-   SOCIAL RAIL: one icon fixed at the bottom right of every page.
-   Hover it and your social icons fan out in a curved row.
-   TO EDIT: replace the three href links below with your own.
-   ========================================================== */
 (function () {
   const links = [
     { name: "GitHub",   href: "https://github.com/yourname",
@@ -165,7 +132,6 @@ if (title && !reduceMotion) {
       icon: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>' }
   ];
 
-  /* one share icon; hover it to open the curved row of socials */
   const SHARE_ICON = '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>';
 
   const rail = document.createElement("div");
@@ -184,11 +150,6 @@ if (title && !reduceMotion) {
   document.body.appendChild(rail);
 })();
 
-/* ==========================================================
-   DARK MODE: adds a moon/sun button at the end of the nav.
-   Click it to switch between light and dark. Your choice is remembered
-   on every page. The colors are in style.css, section 20.
-   ========================================================== */
 (function () {
   const KEY = "theme";
   const root = document.documentElement;
@@ -208,7 +169,6 @@ if (title && !reduceMotion) {
   button.type = "button";
   button.className = "theme-toggle";
 
-  /* shows a moon in light mode (click for dark) and a sun in dark mode (click for light) */
   function paint() {
     const dark = root.dataset.theme === "dark";
     const label = dark ? "Switch to light mode" : "Switch to dark mode";
@@ -225,4 +185,94 @@ if (title && !reduceMotion) {
 
   nav.appendChild(button);
   paint();
+})();
+
+(function () {
+  const cards = document.querySelectorAll(".feat");
+  const modal = document.getElementById("feat-modal");
+  if (!cards.length || !modal) return;
+
+  const panel = modal.querySelector(".showcase-panel");
+  const tag = modal.querySelector(".feat-modal-tag");
+  const heading = modal.querySelector(".feat-modal-title");
+  const body = modal.querySelector(".feat-modal-body");
+  const closeBtn = modal.querySelector(".showcase-close");
+  let lastCard = null;
+
+  function openModal(card) {
+    const more = card.querySelector(".feat-more");
+    const tools = card.querySelector(".feat-tools");
+
+    tag.textContent = card.querySelector(".feat-tag").textContent;
+    heading.textContent = card.querySelector("h3").textContent;
+    body.innerHTML = more ? more.innerHTML : "";
+    if (tools) body.insertBefore(tools.cloneNode(true), body.querySelector(".feat-source"));
+
+    panel.scrollTop = 0;
+    lastCard = card;
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setTimeout(function () { closeBtn.focus(); }, 50);
+  }
+
+  function closeModal() {
+    if (!modal.classList.contains("open")) return;
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (lastCard) lastCard.focus();
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener("click", function () { openModal(card); });
+    card.addEventListener("keydown", function (e) {
+      if (e.target !== card || (e.key !== "Enter" && e.key !== " ")) return;
+      e.preventDefault();
+      openModal(card);
+    });
+  });
+
+  closeBtn.addEventListener("click", closeModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+})();
+
+(function () {
+  const SEND_TO = "you@email.com";
+
+  const form = document.getElementById("contact-form");
+  const note = document.getElementById("form-note");
+  if (!form || !note) return;
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const data = new FormData(form);
+    const subject = encodeURIComponent("Message from " + data.get("name"));
+    const body = encodeURIComponent(data.get("message") + "\n\n" + data.get("name") + " (" + data.get("email") + ")");
+    window.location.href = "mailto:" + SEND_TO + "?subject=" + subject + "&body=" + body;
+    note.textContent = "Opening your email app...";
+  });
+})();
+
+(function () {
+  const chips = document.querySelectorAll("[data-filter]");
+  const cards = document.querySelectorAll("[data-category]");
+  if (!chips.length) return;
+
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      const value = chip.dataset.filter;
+
+      chips.forEach(function (c) {
+        const on = c === chip;
+        c.classList.toggle("active", on);
+        c.setAttribute("aria-pressed", on);
+      });
+
+      cards.forEach(function (card) {
+        card.hidden = value !== "all" && card.dataset.category !== value;
+      });
+    });
+  });
 })();

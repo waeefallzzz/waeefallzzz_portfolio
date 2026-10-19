@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact | Your Name</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Neuton:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Neuton:wght@400;700&family=Syne+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- HEADER: copy any change here to all 4 pages -->
   <header class="header">
-    <a href="index.html" class="logo">
-      <span>Waeefallzz</span>
-    </a>
+    <a href="index.html" class="logo"><span>Waeefallzz</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="profile.html">Profile</a>
@@ -25,20 +23,67 @@
 
   <main>
 
-    <!-- CONTACT: replace each # or address with your real link -->
-    <!-- SECTION HEADER: change the title here -->
-    <div class="section-header">
-      <h2>Contact</h2>
-      <div class="ridge"></div>
+    <div class="page-bar">
+      <span class="page-path">Waeefallzz <i>/</i> <b>Contact</b></span>
+      <span class="page-steps" role="img" aria-label="Page 4 of 4"><i></i><i></i><i></i><i class="on"></i></span>
     </div>
-    <ul class="contact-list">
-      <li><a href="mailto:you@email.com">Email <span>you@email.com</span></a></li>
-      <li><a href="https://facebook.com/yourname">Facebook <span>@yourname</span></a></li>
-      <li><a href="https://github.com/yourname">GitHub <span>@yourname</span></a></li>
-    </ul>
+
+    <header class="page-banner">
+      <h1 class="sr-only">Contact</h1>
+      <p class="page-lead">One short line inviting people to get in touch.</p>
+    </header>
+
+    <div class="contact-grid">
+
+      <section class="page-section">
+        <h3 class="sub-title">Send a message</h3>
+
+        <form class="contact-form" id="contact-form">
+          <div class="field">
+            <label for="cf-name">Name</label>
+            <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+          </div>
+
+          <div class="field">
+            <label for="cf-email">Email</label>
+            <input type="email" id="cf-email" name="email" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field">
+            <label for="cf-message">Message</label>
+            <textarea id="cf-message" name="message" placeholder="Write your message here..." required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="button">Send message</button>
+            <p class="form-note" id="form-note" role="status">Opens your email app.</p>
+          </div>
+        </form>
+      </section>
+
+      <section class="page-section">
+        <h3 class="sub-title">Direct channels</h3>
+
+        <ul class="contact-list">
+          <li><a href="mailto:you@email.com">Email <span>you@email.com</span></a></li>
+          <li><a href="https://facebook.com/yourname">Facebook <span>@yourname</span></a></li>
+          <li><a href="https://github.com/yourname">GitHub <span>@yourname</span></a></li>
+          <li><a href="https://linkedin.com/in/yourname">LinkedIn <span>@yourname</span></a></li>
+        </ul>
+
+        <a href="resume.pdf" class="button secondary contact-resume" download>Download resume (PDF)</a>
+      </section>
+
+    </div>
+
   </main>
 
-  <footer>&copy; 2026 Your Name</footer>
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Your Name</p>
+      <a href="#" class="footer-up">Back to top &uarr;</a>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

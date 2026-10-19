@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Profile | Your Name</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Neuton:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Neuton:wght@400;700&family=Syne+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- HEADER: copy any change here to all 4 pages -->
   <header class="header">
-    <a href="index.html" class="logo">
-      <span>Waeefallzz</span>
-    </a>
+    <a href="index.html" class="logo"><span>Waeefallzz</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="profile.html" class="active">Profile</a>
@@ -23,155 +21,127 @@
     </nav>
   </header>
 
-  <main>
+  <main class="profile-page">
 
-    <!-- SECTION HEADER: change the title here -->
-    <div class="section-header">
-      <h2>Profile</h2>
-      <div class="ridge"></div>
+    <div class="page-bar">
+      <span class="page-path">Waeefallzz <i>/</i> <b>Profile</b></span>
+      <span class="page-steps" role="img" aria-label="Page 2 of 4"><i></i><i class="on"></i><i></i><i></i></span>
     </div>
 
-    <!-- ==========================================================
-         ABOUT ME: your photo, a short bio, and your details.
-         Replace every placeholder text below with your own.
-         ========================================================== -->
+
+    <section class="pf-hero">
+
+      <div>
+        <h1 class="pf-name">Greetings!<br>I'm Ralph Rafols</h1>
+        <p class="pf-role">I can make it happen.</p>
+      </div>
+
+      <div class="intro">
+        <h3 class="sub-title">Introduction</h3>
+        <p>I'm a third-year Information Technology student at Pamantasan ng Lungsod ng Valenzuela. My journey in IT is about learning how technology works, creating useful projects, and finding ways to turn ideas into something real.
+
+I have been exploring web development, programming, networking, databases, and digital design through academic activities and personal projects. I enjoy learning by experimenting, solving problems, and improving my work one step at a time.
+
+Outside technology, I enjoy adventure, nature, animals, and visual storytelling through photography and videography. I value personal growth, staying open to new experiences, and learning from the people and situations around me.
+
+I'm still discovering the path I want to specialize in, but I aim to keep building my skills, creating meaningful projects, and growing into a capable IT professional.</p>
+      </div>
+
+    </section>
+
     <section class="profile-block">
-      <h3 class="sub-title">About Me</h3>
+      <h3 class="sub-title">Details</h3>
+      <dl class="pf-facts">
+        <div><dt>Full name</dt><dd>Ralph Benedict Rafols</dd></div>
+        <div><dt>Course</dt><dd>BS Information Technology</dd></div>
+        <div><dt>School</dt><dd>Pamantasan ng Lungsod ng Valenzuela</dd></div>
+        <div><dt>Location</dt><dd>Valenzuela City, Philippines</dd></div>
+        <div><dt>Focus</dt><dd>Currently Video Editing Maxxing</dd></div>
+      </dl>
+    </section>
 
-      <div class="peek-grid">
+    <section class="profile-block">
+      <h3 class="sub-title">Learning Journey</h3>
 
-        <!-- YOUR PHOTO: to add it, replace the empty box below with:
-             <div class="peek-photo"><img src="images/me.jpg" alt="Your name"></div>
-             and put your picture in the images folder. -->
-        <div class="peek-photo"></div>
+      <div class="cv-list">
+        <article class="cv-row">
+          <p class="cv-year">2026</p>
+          <div>
+            <h4 class="cv-role">Web Development Projects</h4>
+            <p class="cv-org">Academic and personal projects</p>
+          </div>
+          <p class="cv-desc">Practicing front-end development with HTML, CSS, and JavaScript while exploring PHP, MySQL, and local development environments using XAMPP.</p>
+        </article>
 
-        <div>
-          <!-- Short bio: write 2 or 3 sentences about yourself -->
-          <p class="peek-lead">Write two or three sentences about yourself here. Who you are, what you study, and what you enjoy.</p>
-          <p class="home-note">Add a second paragraph if you want. Delete this line if you do not.</p>
+        <article class="cv-row">
+          <p class="cv-year">2025–2026</p>
+          <div>
+            <h4 class="cv-role">IT Systems and Networking</h4>
+            <p class="cv-org">Coursework and laboratory exercises</p>
+          </div>
+          <p class="cv-desc">Exploring network configuration, IP addressing, VLANs, routing, and DHCP through simulated network topologies.</p>
+        </article>
 
-          <!-- YOUR DETAILS: to add a row, copy one li line and change the words.
-               To remove a row, delete its li line. -->
-          <ul class="peek-facts">
-            <li><span>Full name</span> Your full name</li>
-            <li><span>Birthday</span> Month Day, Year</li>
-            <li><span>Course</span> Your course</li>
-            <li><span>School</span> Your school</li>
-            <li><span>Location</span> Your city, Philippines</li>
-            <li><span>Email</span> you@email.com</li>
-          </ul>
-        </div>
+        <article class="cv-row">
+          <p class="cv-year">Ongoing</p>
+          <div>
+            <h4 class="cv-role">Programming and Databases</h4>
+            <p class="cv-org">Continuous learning</p>
+          </div>
+          <p class="cv-desc">Strengthening programming fundamentals, Java, JavaScript, SQL, and the connection between front-end interfaces and backend data.</p>
+        </article>
       </div>
     </section>
 
-    <!-- ==========================================================
-         EXPERIENCE: a timeline of your experience, awards, or training.
-         TO ADD AN ENTRY: copy one whole <article class="timeline-item"> block
-         and paste it below the last one. Entries switch sides automatically.
-         ========================================================== -->
-    <section class="profile-block">
-      <h3 class="sub-title">Experience</h3>
-
-      <div class="timeline">
-
-        <article class="timeline-item">
-          <h4 class="timeline-role">Your Role</h4>
-          <p class="timeline-org">Company or School</p>
-          <p class="timeline-year">2025</p>
-          <p class="timeline-desc">Write one or two sentences about what you did and what you learned.</p>
-        </article>
-
-        <article class="timeline-item">
-          <h4 class="timeline-role">Your Role</h4>
-          <p class="timeline-org">Company or School</p>
-          <p class="timeline-year">2024</p>
-          <p class="timeline-desc">Write one or two sentences about what you did and what you learned.</p>
-        </article>
-
-        <article class="timeline-item">
-          <h4 class="timeline-role">Your Role</h4>
-          <p class="timeline-org">Company or School</p>
-          <p class="timeline-year">2023</p>
-          <p class="timeline-desc">Write one or two sentences about what you did and what you learned.</p>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- ==========================================================
-         SKILLS: one card per skill, with a picture and a progress bar.
-
-         TO UPDATE YOUR PROGRESS: change the number after --level (0 to 100).
-         The bar and the percent text both follow that one number.
-           Example: style="--level: 70"  means 70%
-
-         TO ADD A SKILL: copy one whole <article class="skill"> block
-         (from <article to </article>) and paste it below the last one.
-
-         TO CHANGE THE PICTURE: change the src="..." to your own file,
-         like src="images/skills/java.png". The pictures below load from
-         the internet (devicon), so they need a connection.
-         For a skill with no picture yet, use the empty box (see Networking).
-         ========================================================== -->
     <section class="profile-block">
       <h3 class="sub-title">Skills</h3>
 
-      <div class="skill-grid">
-
-        <article class="skill" style="--level: 70">
-          <div class="skill-head">
-            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"></div>
-            <h4 class="skill-name">Java</h4>
-            <span class="skill-level"></span>
-          </div>
-          <div class="skill-bar"><span></span></div>
+      <div class="skill-list">
+        <article class="skill-row" style="--level: 70">
+          <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java"></div>
+          <h4 class="skill-name">Java</h4>
+          <div class="skill-meter"><span></span></div>
+          <span class="skill-level"></span>
         </article>
 
-        <article class="skill" style="--level: 55">
-          <div class="skill-head">
-            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"></div>
-            <h4 class="skill-name">JavaScript</h4>
-            <span class="skill-level"></span>
-          </div>
-          <div class="skill-bar"><span></span></div>
+        <article class="skill-row" style="--level: 55">
+          <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript"></div>
+          <h4 class="skill-name">JavaScript</h4>
+          <div class="skill-meter"><span></span></div>
+          <span class="skill-level"></span>
         </article>
 
-        <article class="skill" style="--level: 85">
-          <div class="skill-head">
-            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"></div>
-            <h4 class="skill-name">HTML</h4>
-            <span class="skill-level"></span>
-          </div>
-          <div class="skill-bar"><span></span></div>
+        <article class="skill-row" style="--level: 85">
+          <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML"></div>
+          <h4 class="skill-name">HTML</h4>
+          <div class="skill-meter"><span></span></div>
+          <span class="skill-level"></span>
         </article>
 
-        <article class="skill" style="--level: 75">
-          <div class="skill-head">
-            <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"></div>
-            <h4 class="skill-name">CSS</h4>
-            <span class="skill-level"></span>
-          </div>
-          <div class="skill-bar"><span></span></div>
+        <article class="skill-row" style="--level: 75">
+          <div class="skill-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS"></div>
+          <h4 class="skill-name">CSS</h4>
+          <div class="skill-meter"><span></span></div>
+          <span class="skill-level"></span>
         </article>
 
-        <!-- NO PICTURE YET: this empty box is the placeholder.
-             To add a picture, replace <div class="skill-icon"></div> with:
-             <div class="skill-icon"><img src="images/skills/networking.png" alt="Networking"></div> -->
-        <article class="skill" style="--level: 40">
-          <div class="skill-head">
-            <div class="skill-icon"></div>
-            <h4 class="skill-name">Networking</h4>
-            <span class="skill-level"></span>
-          </div>
-          <div class="skill-bar"><span></span></div>
+        <article class="skill-row" style="--level: 40">
+          <div class="skill-icon"></div>
+          <h4 class="skill-name">Networking</h4>
+          <div class="skill-meter"><span></span></div>
+          <span class="skill-level"></span>
         </article>
-
       </div>
     </section>
 
   </main>
 
-  <footer>&copy; 2026 Your Name</footer>
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Your Name</p>
+      <a href="#" class="footer-up">Back to top &uarr;</a>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>

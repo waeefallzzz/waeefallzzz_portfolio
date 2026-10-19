@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Feats | Your Name</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Neuton:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Neuton:wght@400;700&family=Syne+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <!-- HEADER: copy any change here to all 4 pages -->
   <header class="header">
-    <a href="index.html" class="logo">
-      <span>Waeefallzz</span>
-    </a>
+    <a href="index.html" class="logo"><span>Waeefallzz</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="profile.html">Profile</a>
@@ -25,45 +23,139 @@
 
   <main>
 
-    <!-- FEATS: your projects and achievements -->
-    <!-- SECTION HEADER: change the title here -->
-    <div class="section-header">
-      <h2>Feats</h2>
-      <div class="ridge"></div>
+    <div class="page-bar">
+      <span class="page-path">Waeefallzz <i>/</i> <b>Feats</b></span>
+      <span class="page-steps" role="img" aria-label="Page 3 of 4"><i></i><i></i><i class="on"></i><i></i></span>
     </div>
-    <div class="grid">
 
-      <!-- ONE CARD. To add another, copy from <a class="card"> to </a> and paste below.
-           To add a picture, replace the empty card-image div with:
-           <div class="card-image"><img src="images/yourpicture.jpg" alt="Describe it"></div> -->
-      <a href="#" class="card">
-        <div class="card-image"></div>
-        <div class="card-body">
-          <h3>Project One</h3>
+    <header class="page-banner">
+      <h1 class="sr-only">Feats</h1>
+      <p class="page-lead">One short line about the work you have done and what you are proud of.</p>
+    </header>
+
+    <section class="page-section">
+      <h3 class="sub-title">Feats</h3>
+
+      <div class="filter-bar" role="group" aria-label="Filter feats by category">
+        <button type="button" class="chip active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-filter="networking" aria-pressed="false">Networking</button>
+        <button type="button" class="chip" data-filter="web-design" aria-pressed="false">Web Design</button>
+        <button type="button" class="chip" data-filter="figma" aria-pressed="false">Figma</button>
+        <button type="button" class="chip" data-filter="multimedia" aria-pressed="false">Multi-media</button>
+        <button type="button" class="chip" data-filter="programming" aria-pressed="false">Programming</button>
+        <button type="button" class="chip" data-filter="collections" aria-pressed="false">Collections</button>
+        <button type="button" class="chip" data-filter="database" aria-pressed="false">Database</button>
+      </div>
+
+      <div class="feat-grid">
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="networking">
+          <div class="feat-top"><span>Feat 01</span><span class="feat-tag">Networking</span></div>
+          <h3>Feat title</h3>
           <p>One sentence about what this is.</p>
-        </div>
-      </a>
-
-      <a href="#" class="card">
-        <div class="card-image"></div>
-        <div class="card-body">
-          <h3>Project Two</h3>
+          <ul class="feat-tools"><li>Cisco</li><li>Packet Tracer</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-1.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="web-design">
+          <div class="feat-top"><span>Feat 02</span><span class="feat-tag">Web Design</span></div>
+          <h3>Feat title</h3>
           <p>One sentence about what this is.</p>
-        </div>
-      </a>
-
-      <a href="#" class="card">
-        <div class="card-image"></div>
-        <div class="card-body">
-          <h3>Project Three</h3>
+          <ul class="feat-tools"><li>HTML</li><li>CSS</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-2.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="figma">
+          <div class="feat-top"><span>Feat 03</span><span class="feat-tag">Figma</span></div>
+          <h3>Feat title</h3>
           <p>One sentence about what this is.</p>
-        </div>
-      </a>
+          <ul class="feat-tools"><li>Figma</li><li>Prototype</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-3.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="multimedia">
+          <div class="feat-top"><span>Feat 04</span><span class="feat-tag">Multi-media</span></div>
+          <h3>Feat title</h3>
+          <p>One sentence about what this is.</p>
+          <ul class="feat-tools"><li>Photoshop</li><li>Illustrator</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-4.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="programming">
+          <div class="feat-top"><span>Feat 05</span><span class="feat-tag">Programming</span></div>
+          <h3>Feat title</h3>
+          <p>One sentence about what this is.</p>
+          <ul class="feat-tools"><li>Java</li><li>JavaScript</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-5.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="collections">
+          <div class="feat-top"><span>Feat 06</span><span class="feat-tag">Collections</span></div>
+          <h3>Game art collection</h3>
+          <p>One sentence about your game development art.</p>
+          <ul class="feat-tools"><li>Pixel art</li><li>Sprites</li></ul>
+          <div class="feat-more" hidden>
+            <div class="feat-gallery">
+              <img src="images/art-1.jpg" alt="Game art one" loading="lazy">
+              <img src="images/art-2.jpg" alt="Game art two" loading="lazy">
+              <img src="images/art-3.jpg" alt="Game art three" loading="lazy">
+              <img src="images/art-4.jpg" alt="Game art four" loading="lazy">
+            </div>
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this collection. What the art is for and how you made it.</p>
+          </div>
+        </article>
+        <article class="feat" tabindex="0" role="button" aria-haspopup="dialog" data-category="database">
+          <div class="feat-top"><span>Feat 07</span><span class="feat-tag">Database</span></div>
+          <h3>Feat title</h3>
+          <p>One sentence about what this is.</p>
+          <ul class="feat-tools"><li>MySQL</li><li>SQL</li></ul>
+          <div class="feat-more" hidden>
+            <img src="images/feat-7.jpg" alt="Feat screenshot" loading="lazy">
+            <p class="feat-date">Month Day, Year</p>
+            <p class="feat-long">Write two or three sentences about this feat. What it is, how you made it, and what you learned.</p>
+            <a class="button secondary feat-source" href="https://github.com/yourname" target="_blank" rel="noopener">Source code</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
-    </div>
   </main>
 
-  <footer>&copy; 2026 Your Name</footer>
+  <div class="showcase" id="feat-modal" aria-hidden="true">
+    <div class="showcase-panel" role="dialog" aria-modal="true" aria-labelledby="feat-modal-title">
+      <button type="button" class="showcase-close" aria-label="Close">&times;</button>
+      <p class="feat-modal-tag"></p>
+      <h2 class="feat-modal-title" id="feat-modal-title"></h2>
+      <div class="feat-modal-body"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Your Name</p>
+      <a href="#" class="footer-up">Back to top &uarr;</a>
+    </div>
+  </footer>
 
   <script src="script.js"></script>
 </body>
