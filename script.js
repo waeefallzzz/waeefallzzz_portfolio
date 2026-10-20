@@ -239,19 +239,140 @@ if (title && !reduceMotion) {
 })();
 
 (function () {
-  const SEND_TO = "you@email.com";
+  const ACCESS_KEY = "80f3fe8b-9b1e-4d3a-8193-96325f3493a9";
 
   const form = document.getElementById("contact-form");
   const note = document.getElementById("form-note");
   if (!form || !note) return;
 
-  form.addEventListener("submit", function (e) {
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  /* ---------- overlay ---------- */
+  const CHECK = '<polyline points="20 6 9 17 4 12"/>';
+  const CROSS = '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>';
+
+  const css = document.createElement("style");
+  css.textContent = `
+    .sent-overlay {
+      position: fixed; inset: 0; z-index: 1000;
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+      background: rgba(10, 10, 10, 0.55);
+      backdrop-filter: blur(4px);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s;
+    }
+    .sent-overlay.open { opacity: 1; visibility: visible; }
+    .sent-card {
+      width: 100%; max-width: 380px;
+      padding: 2rem 1.75rem 1.75rem;
+      text-align: center;
+      background: var(--bg, #fff);
+      color: var(--text, #111);
+      border: 1px solid rgba(128, 128, 128, 0.25);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      transform: translateY(14px) scale(0.97);
+      transition: transform 0.3s ease;
+    }
+    :root[data-theme="dark"] .sent-card { background: var(--bg, #161616); color: var(--text, #f2f2f2); }
+    .sent-overlay.open .sent-card { transform: none; }
+    .sent-icon {
+      width: 56px; height: 56px; margin: 0 auto 1rem;
+      display: grid; place-items: center;
+      border-radius: 50%;
+      background: var(--accent, #4f46e5); color: #fff;
+    }
+    .sent-overlay.error .sent-icon { background: #d64545; }
+    .sent-icon svg {
+      width: 26px; height: 26px; fill: none; stroke: currentColor;
+      stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .sent-card h3 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+    .sent-card p  { margin: 0 0 1.5rem; opacity: 0.8; line-height: 1.5; }
+    @media (prefers-reduced-motion: reduce) {
+      .sent-overlay, .sent-card { transition: none; }
+    }
+  `;
+  document.head.appendChild(css);
+
+  const overlay = document.createElement("div");
+  overlay.className = "sent-overlay";
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.innerHTML =
+    '<div class="sent-card" role="alertdialog" aria-modal="true" aria-labelledby="sent-title" aria-describedby="sent-text">' +
+      '<div class="sent-icon"><svg viewBox="0 0 24 24" aria-hidden="true"></svg></div>' +
+      '<h3 id="sent-title"></h3>' +
+      '<p id="sent-text"></p>' +
+      '<button type="button" class="button sent-close">Close</button>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  const iconSvg  = overlay.querySelector(".sent-icon svg");
+  const titleEl  = overlay.querySelector("#sent-title");
+  const textEl   = overlay.querySelector("#sent-text");
+  const closeBtn = overlay.querySelector(".sent-close");
+  let autoClose = null;
+
+  function showOverlay(ok, heading, message) {
+    overlay.classList.toggle("error", !ok);
+    iconSvg.innerHTML = ok ? CHECK : CROSS;
+    titleEl.textContent = heading;
+    textEl.textContent = message;
+    overlay.classList.add("open");
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setTimeout(function () { closeBtn.focus(); }, 50);
+
+    clearTimeout(autoClose);
+    if (ok) autoClose = setTimeout(hideOverlay, 5000);
+  }
+
+  function hideOverlay() {
+    if (!overlay.classList.contains("open")) return;
+    clearTimeout(autoClose);
+    overlay.classList.remove("open");
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  closeBtn.addEventListener("click", hideOverlay);
+  overlay.addEventListener("click", function (e) { if (e.target === overlay) hideOverlay(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") hideOverlay(); });
+
+  /* ---------- submit ---------- */
+  form.addEventListener("submit", async function (e) {
     e.preventDefault();
-    const data = new FormData(form);
-    const subject = encodeURIComponent("Message from " + data.get("name"));
-    const body = encodeURIComponent(data.get("message") + "\n\n" + data.get("name") + " (" + data.get("email") + ")");
-    window.location.href = "mailto:" + SEND_TO + "?subject=" + subject + "&body=" + body;
-    note.textContent = "Opening your email app...";
+
+    const formData = new FormData(form);
+    formData.append("access_key", ACCESS_KEY);
+    formData.append("subject", "New message from " + formData.get("name"));
+    formData.append("from_name", "Portfolio Contact Form");
+
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
+    note.textContent = "";
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        form.reset();
+        showOverlay(true, "Message sent", "Thanks for reaching out. I'll get back to you soon.");
+      } else {
+        showOverlay(false, "Couldn't send", data.message || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      showOverlay(false, "Couldn't send", "Network error. Please check your connection and try again.");
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
   });
 })();
 
@@ -275,4 +396,71 @@ if (title && !reduceMotion) {
       });
     });
   });
+})();
+
+/* Scroll reveal: minimal fade + slide, staggered, runs once per element */
+(function () {
+  if (reduceMotion || !("IntersectionObserver" in window)) return;
+
+  const DURATION = 900;   // keep in sync with the CSS transition
+  const STAGGER  = 90;    // ms between siblings
+  const MAX_STEP = 5;     // cap so long lists don't lag
+
+  const groups = [
+    // [selector, direction]
+    [".page-banner",                 "up"],
+    [".intro-main",                  "left"],
+    [".hero-details .detail",        "right"],
+    [".sub-title",                   "left"],
+    [".strip-grid figure",           "up"],
+    [".focus-item",                  "up"],
+    [".now-item",                    "up"],
+    [".closing",                     "up"],
+    [".pf-hero, .about-head",        "up"],
+    [".about-photo",                 "left"],
+    [".about-cols > div",            "up"],
+    [".pf-facts > div",              "up"],
+    [".cv-row",                      "right"],
+    [".skill-row",                   "up"],
+    [".filter-bar",                  "up"],
+    [".feat",                        "up"],
+    [".contact-form",                "left"],
+    [".contact-list",                "right"],
+    [".contact-resume",              "up"]
+  ];
+
+  const seen = new Set();
+  const targets = [];
+
+  groups.forEach(function (g) {
+    document.querySelectorAll(g[0]).forEach(function (el) {
+      if (seen.has(el)) return;
+      seen.add(el);
+
+      // stagger among already-tagged siblings of the same parent
+      const step = targets.filter(function (t) { return t.parent === el.parentElement; }).length;
+      el.classList.add("reveal");
+      if (g[1] !== "up") el.classList.add("reveal-" + g[1]);
+      el.style.setProperty("--d", (Math.min(step, MAX_STEP) * STAGGER) + "ms");
+      targets.push({ el: el, parent: el.parentElement, step: Math.min(step, MAX_STEP) });
+    });
+  });
+
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      io.unobserve(el);
+      el.classList.add("is-in");
+
+      // hand the element back to its normal CSS (hover transforms etc.)
+      const delay = parseFloat(el.style.getPropertyValue("--d")) || 0;
+      setTimeout(function () {
+        el.classList.remove("reveal", "reveal-left", "reveal-right", "is-in");
+        el.style.removeProperty("--d");
+      }, delay + DURATION + 100);
+    });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+
+  targets.forEach(function (t) { io.observe(t.el); });
 })();
